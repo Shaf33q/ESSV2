@@ -1,0 +1,188 @@
+﻿@model IEnumerable<ESSV2.Models.JobDetails>
+@{
+    ViewBag.Title = "View Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+<link href="~/Content/AdminLTE.css" rel="stylesheet" />
+<link href="~/Content/jquery.notify.css" rel="stylesheet" />
+<link href="~/Content/skins/_all-skins.min.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Jobs List</h3>
+
+
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                    <div style="height:370px !important; overflow-x:auto;">
+                        <div class="table-responsive mailbox-messages">
+
+                            @using (Html.BeginForm("JobList", "Pages"))
+                            {
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr >
+                                            <th class="text-center col-md-1">
+                                                Job Id
+                                            </th>
+                                            <th class="text-justified col-md-2">
+                                                Job Title
+                                            </th>
+                                            <th class="text-justified col-md-3">
+                                                About Job
+                                            </th>
+                                            <th class="text-justified col-md-1">
+                                                FunctionalArea
+                                            </th>
+                                            <th class="text-justified col-md-1">
+                                                Role
+                                            </th>
+                                            <th class="text-justified col-md-1">
+                                                Keyskills
+                                            </th>
+                                            <th class="text-justified col-md-1">
+                                                Location
+                                            </th>
+                                            <th class="text-justified col-md-1">
+                                                Salary
+                                            </th>
+                                            <th class="text-center col-md-1">
+                                                Action
+                                            </th>
+
+                                        </tr>
+                                        @foreach (var Jobs in Model)
+                                    {
+                                    <tr>
+
+                                        <td style="width: 5em;" class="text-center">
+                                            @Html.DisplayFor(modelItem => Jobs.Id)
+                                        </td>
+                                        <td class="text-shower ellipsis text-justified" style="width: 12em; white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">
+                                            @Html.DisplayFor(modelItem => Jobs.JobTitle)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.AboutJob)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.FunctionalArea)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.Role)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.JobKeyskills)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.JobLocation)
+                                        </td>
+                                        <td class="text-justified">
+                                            @Html.DisplayFor(modelItem => Jobs.JobSalary)
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/Pages/DeleteVacancy?Id=@Jobs.Id">
+                                                <i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" data-original-title="Delete" onclick="return confirm('Are you sure you wish to delete this Task?');"></i>
+                                            </a>
+                                            @*<a href="/Pages/DeleteVacancy">
+                                                <i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" data-original-title="Delete" onclick="return confirm('Are you sure you wish to delete this Task?');"></i>
+                                            </a>*@
+                                        </td>
+                                    </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            <!-- /.table -->
+                            }
+                        </div>
+                        </div>
+                        <!-- /.mail-box-messages -->
+                    </div> <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="~/Pages/InsertJobDetails" class="btn btn-primary btn-lg pull-right">
+                            Add Job
+                        </a>
+                    </div>
+                   
+
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="~/Scripts/jquery.ellipsisTooltip.js"></script>
+<script src="~/Scripts/jquery.notify.min.js"></script>
+<script src="~/Scripts/app.min.js"></script>
+<script src="~/Scripts/demo.js"></script>
+
+    <script>
+        function Notify(Title, Icon, Message, Theme, AutoHide) {
+            if (AutoHide == false) {
+                notify({
+                    type: Theme, //alert | success | error | warning | info
+                    title: Title,
+                    position: {
+                        x: "right", //right | left | center
+                        y: "top" //top | bottom | center
+                    },
+                    icon: '<i class="fa ' + Icon + '" style="font-size: 25px;"></i>',
+                    message: Message
+                });
+            } else {
+
+                notify({
+                    type: Theme, //alert | success | error | warning | info
+                    title: Title,
+                    message: Message,
+                    position: {
+                        x: "right", //right | left | center
+                        y: "top" //top | bottom | center
+                    },
+                    icon: '<i class="fa ' + Icon + '" style="font-size: 25px;"></i>', //<i>
+                    size: "normal", //normal | full | small
+                    overlay: false, //true | false
+                    closeBtn: true, //true | false
+                    overflowHide: false, //true | false
+                    spacing: 20, //number px
+                    theme: "default", //default | dark-theme
+                    autoHide: true, //true | false
+                    delay: 5000, //number ms
+                    onShow: null, //function
+                    onClick: null, //function
+                    onHide: null //function
+
+                });
+            }
+
+        }
+		jQuery(document).ready(function() {
+		    //Toast Notifier Messages
+
+
+		    $('[data-toggle="tooltip"]').tooltip();
+		    $(".ellipsis").ellipsisTooltip({
+		        placement: "bottom"
+		    })
+
+		});
+</script>
+}
+

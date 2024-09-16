@@ -1,0 +1,198 @@
+﻿@model ESSV2.Models.JobDetails
+@{
+    ViewBag.Title = "Insert Vacencies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/jquery.notify.css" rel="stylesheet" />
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Add vacancies</h3>
+                    </div>
+                    @using (Html.BeginForm("InsertJobDetails", "Pages"))
+                    {
+                        <div class="box-body">
+                            <div class="col-md-12" style="padding-bottom:20px;">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Title</span>
+                                        @Html.EditorFor(model => model.JobTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Job Title", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Title">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Details</span>
+                                        @Html.EditorFor(model => model.AboutJob, new { htmlAttributes = new { @class = "form-control", placeholder = "About Job", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="About Job">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Industry</span>
+                                        @Html.EditorFor(model => model.Industry, new { htmlAttributes = new { @Value = "Information Technology", @class = "form-control", placeholder = "Job Industry", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Industry">*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-bottom:20px;">
+
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">FunctionalArea</span>
+                                        @Html.DropDownListFor(model => model.FunctionalArea, new List<SelectListItem> { new SelectListItem { Text = "Developing", Value = "Developing" }, new SelectListItem { Text = "Testing", Value = "Testing" }, new SelectListItem { Text = "Hr Management", Value = "Hr Management" } }, "----- FunctionalArea-----", new { @class = "form-control", placeholder = "Job FunctionalArea", type = "text", style = "width:189px;" })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job FunctionalArea">*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Role</span>
+                                        @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control", placeholder = "Job Role", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Role">*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Keyskills</span>
+                                        @Html.EditorFor(model => model.JobKeyskills, new { htmlAttributes = new { @class = "form-control", placeholder = "Job Keyskills", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Keyskills">*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-bottom:20px;">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Location</span>
+                                        @Html.EditorFor(model => model.JobLocation, new { htmlAttributes = new { @class = "form-control", placeholder = "Job Location", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Location">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Salary</span>
+                                        @Html.EditorFor(model => model.JobSalary, new { htmlAttributes = new { @class = "form-control", placeholder = "Job Salary", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Job Salary">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Candidate</span>
+                                        @Html.EditorFor(model => model.DesiredCandidateDetails, new { htmlAttributes = new { @class = "form-control", placeholder = "Candidate Details", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Candidate Details">*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-bottom:20px;">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Educational</span>
+                                        @Html.EditorFor(model => model.CandidateEducationDetails, new { htmlAttributes = new { @class = "form-control", placeholder = "Education Details", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Education Details">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Language Known</span>
+                                        @Html.EditorFor(model => model.CandidateLanguageKnown, new { htmlAttributes = new { @class = "form-control", placeholder = "Candidate Known", type = "text", style = "width:189px;" } })
+                                        @*<input type="text" class="form-control" style="width:189px;"  placeholder="Candidate Known">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width:127px;">Experience</span>
+                                        @Html.DropDownListFor(model => model.CandidateExperience, new List<SelectListItem> { new SelectListItem { Text = "Fresher", Value = "Fresher" }, new SelectListItem { Text = "0 - 1 yr", Value = "0 - 1 yr" }, new SelectListItem { Text = "1 - 2 yrs", Value = "1 - 2 yrs" }, new SelectListItem { Text = "2 - 3 yrs", Value = "2 - 3 yrs" }, new SelectListItem { Text = "3 - 4 yrs", Value = "3 - 4 yrs" }, new SelectListItem { Text = "4 - 5 yrs", Value = "4 - 5 yrs" } }, "----- Experience-----", new { @class = "form-control", placeholder = "Candidate Experience", type = "text", style = "width:189px;" })
+                                        @*<input type="text" class="form-control" style="width:189px;" placeholder="Candidate Experience">*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary pull-right ">Add Job</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+
+
+
+
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.notify.min.js"></script>
+    <script src="~/Scripts/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.ellipsisTooltip.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/demo.js"></script>
+<script>
+        function Notify(Title, Icon, Message, Theme, AutoHide) {
+            if (AutoHide == false) {
+                notify({
+                    type: Theme, //alert | success | error | warning | info
+                    title: Title,
+                    position: {
+                        x: "right", //right | left | center
+                        y: "top" //top | bottom | center
+                    },
+                    icon: '<i class="fa ' + Icon + '" style="font-size: 25px;"></i>',
+                    message: Message
+                });
+            } else {
+
+                notify({
+                    type: Theme, //alert | success | error | warning | info
+                    title: Title,
+                    message: Message,
+                    position: {
+                        x: "right", //right | left | center
+                        y: "top" //top | bottom | center
+                    },
+                    icon: '<i class="fa ' + Icon + '" style="font-size: 25px;"></i>', //<i>
+                    size: "normal", //normal | full | small
+                    overlay: false, //true | false
+                    closeBtn: true, //true | false
+                    overflowHide: false, //true | false
+                    spacing: 20, //number px
+                    theme: "default", //default | dark-theme
+                    autoHide: true, //true | false
+                    delay: 5000, //number ms
+                    onShow: null, //function
+                    onClick: null, //function
+                    onHide: null //function
+
+                });
+            }
+
+        }
+		jQuery(document).ready(function() {
+		    //Toast Notifier Messages
+
+
+		    $('[data-toggle="tooltip"]').tooltip();
+		    $(".ellipsis").ellipsisTooltip({
+		        placement: "bottom"
+		    })
+
+		});
+</script>
+}

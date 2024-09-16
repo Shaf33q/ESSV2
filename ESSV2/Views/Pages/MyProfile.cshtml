@@ -1,0 +1,602 @@
+﻿@model ESSV2.Models.ProfileData
+@{
+    ViewBag.Title = "My Profile";
+}
+
+@section Styles{
+   
+    <link href="~/Content/ng-img-crop.css" rel="stylesheet" />
+    <style>
+        .cropArea {
+           
+            overflow: hidden;
+            width: 500px;
+            height: 350px;
+        }
+      
+    </style>
+}
+
+
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            My Profile
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">My Profile</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12" ng-app="myApp" ng-controller="myCtrl">
+                <!-- BASIC -->
+
+
+                <form role="form">
+                    <div class="col-md-4">
+
+
+                        <div class="form-group polaroid">
+                            <p>@ViewBag.UserName</p>
+                            <img src="@ViewBag.ProfilePic">
+                            <div class="edit"><a href="#" data-toggle="modal" data-target="#PicUploader"><i class="fa fa-pencil fa-lg"></i></a></div>
+                        </div><br /><br />
+
+                        <label for="Name">Certificates &  ID Proof</label><br />
+                        <div class="polar" align="middle">
+                            <div id="first" class="divSquare"><img src="@ViewBag.ProfilePic"></div>
+                            <div id="second" class="divSquare">2</div>
+
+                            <div id="third" class="divSquare">3</div>
+                            <div id="fourth" class="divSquare">4</div>
+                            <div style='clear:both'></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="fName" ng-model="FirstName" placeholder="Enter First Name" ng-disabled="FirstNameDisabled"><span class="input-group-btn"> <button id="AddFname" class="btn btn-default" type="button" ng-click="AddProfileData('FirstName')"><i ng-class="FirstNameClass"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" id="email" ng-model="Email" placeholder="Enter E-mail Address" ng-disabled="EmailDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddUserData('Email')"><i ng-class="EmailClass"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Experience</label>
+                            <input type="text" class="form-control" id="Experience" value="@ViewBag.Exp"  placeholder="Experience" disabled>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Address Line 1</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="Address1" ng-model="Addrline1" placeholder="Address Line 1" ng-disabled="Addrline1Disabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('Addrline1')"><i ng-class="Addrline1Class"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>City </label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="City" ng-model="City" placeholder="City" ng-disabled="CityDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('City')"><i ng-class="CityClass"></i></button> </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Pin Code</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="pincode" ng-model="Pincode" placeholder="Pincode" ng-disabled="PincodeDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('Pincode')"><i ng-class="PincodeClass"></i></button> </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date Of Birth</label>
+
+                            <div class="input-group">
+                                <input type="{{DOBType}}" class="form-control" id="dob" ng-model="dob" placeholder="dob" ng-disabled="dobDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="Adddob()"><i ng-class="dobClass"></i></button> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Last Name</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="LastName" ng-model="LastName" placeholder="Enter Last Name" ng-disabled="LastNameDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('LastName')"><i ng-class="LastNameClass"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <input type="text" class="form-control" id="Designation" value="@ViewBag.Designation" placeholder="Designation" disabled>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+
+                            <div class="input-group">
+                                <input type="password" class="form-control" ng-model="Password" id="Password" placeholder="Enter Password" ng-disabled="PasswordDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddUserData('Password')"><i ng-class="PasswordClass"></i></button> </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 2</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="AddressLine2" ng-model="Addrline2" placeholder="Address Line 2" ng-disabled="Addrline2Disabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('Addrline2')"><i ng-class="Addrline2Class"></i></button> </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">State</label>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="State" ng-model="State" placeholder="State" ng-disabled="StateDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('State')"><i ng-class="StateClass"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="" placeholder="Phone" ng-model="Mobile" ng-disabled="MobileDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('Mobile')"><i ng-class="MobileClass"></i></button> </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="" placeholder="Blood Group" ng-model="BloodGroup" ng-disabled="BloodGroupDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('BloodGroup')"><i  ng-class="BloodGroupClass"></i></button> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="Bname" ng-model="BankName" placeholder="Enter Bank Name" ng-disabled="BankNameDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('BankName')"><i ng-class="BankNameClass"></i></button> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Bank Acc No.</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="BankAccNo" ng-model="BankAccNo" placeholder="Bank Account Number" ng-disabled="BankAccNoDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('BankAccNo')"><i ng-class="BankAccNoClass"></i></button> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>PAN</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="PAN" id="PAN" placeholder="Enter PAN" ng-disabled="PANDisabled"><span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddProfileData('PAN')"><i ng-class="PANClass"></i></button> </span>
+                            </div>
+                        </div>
+                    </div>
+                     
+
+                 
+
+
+                    <input type="text" id="hdnidvalue" value="@ViewBag.SessionID" style="display:none" ng-model="ID" />
+
+                </form>
+
+                
+
+                <div class="modal modal-info" id="PicUploader">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">Image Uploader</h4>
+                            </div>
+                            <form novalidate name="f1" ng-submit="SaveFile()">
+                                <div class="modal-body">
+
+
+                                    <div style="color: red">{{Message}}</div>
+                                    <div>
+                                        Select an image file: <input type="file" id="fileInput" accept="image/*" onchange="angular.element(this).scope().selectFileforUpload(this.files)" required />
+                                        <span class="error" ng-show="(f1.file.$dirty || IsFormSubmitted) && f1.file.$error.required">Image required!</span>
+                                        <span class="error">{{FileInvalidMessage}}</span>
+                                    </div>
+                                    <div class="cropArea" align="center">
+                                        <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+                                    </div>
+                                    <div>Cropped Image:</div>
+                                    <div align="center">
+                                        <img ng-src="{{myCroppedImage}}" id="cropped" />
+
+                                    </div>
+                                   
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-outline" value="Upload File" />
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+                <!-- /BASIC -->
+
+            </div>
+
+
+
+        </div>
+
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+
+
+
+
+@section Scripts{
+
+
+
+
+
+
+
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js'></script>
+    <script src="~/Scripts/ng-img-crop.js"></script>
+
+    <script>
+        //Define angular app
+        var app = angular.module('myApp', ['ngImgCrop']);
+
+        //controllers
+        app.controller('myCtrl', function ($scope, $http,FileUploadService) {
+            $scope.myImage = '';
+            $scope.myCroppedImage = '';
+            $scope.DOBType = "text";
+            var handleFileSelect = function (evt) {
+                var file = evt.currentTarget.files[0];
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    $scope.$apply(function ($scope) {
+                        $scope.myImage = evt.target.result;
+                    });
+                };
+                reader.readAsDataURL(file);
+            };
+            angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+            $scope.FirstName = "@ViewBag.FirstName";
+            $scope.Email = "@ViewBag.Email";
+            $scope.LastName = "@ViewBag.LastName";
+            $scope.Mobile = "@ViewBag.Mobile";
+            $scope.State = "@ViewBag.State";
+            $scope.City = "@ViewBag.City";
+            $scope.Addrline1 = "@ViewBag.Addr1";
+            $scope.Addrline2 = "@ViewBag.Addr2";
+            var DOB = new Date("@ViewBag.DOB");
+            var m = ((DOB.getMonth() + 1) / 10 < 1) ? "0" + (DOB.getMonth() + 1) : (DOB.getMonth() + 1);
+            var d = (DOB.getDate() / 10 < 1) ? "0" + (DOB.getDate()) : (DOB.getDate());
+            $scope.dob = DOB.getFullYear() + "-" + m + "-" + d;
+            $scope.Pincode = "@ViewBag.PinCode";
+            $scope.Password = "password";
+            $scope.BloodGroup = "@ViewBag.BldGrp";
+            $scope.BankName = "@ViewBag.BankName";
+            $scope.BankAccNo = "@ViewBag.BankAccNo";
+            $scope.PAN = "@ViewBag.PAN";
+
+
+            $scope.PasswordClass = 'fa fa-pencil';
+            $scope.FirstNameClass = 'fa fa-pencil';
+            $scope.EmailClass = 'fa fa-pencil';
+            $scope.LastNameClass = 'fa fa-pencil';
+            $scope.MobileClass = 'fa fa-pencil';
+            $scope.StateClass = 'fa fa-pencil';
+            $scope.CityClass = 'fa fa-pencil';
+            $scope.Addrline1Class = 'fa fa-pencil';
+            $scope.Addrline2Class = 'fa fa-pencil';
+            $scope.dobClass = 'fa fa-pencil';
+            $scope.PincodeClass = 'fa fa-pencil';
+            $scope.BloodGroupClass = 'fa fa-pencil';
+            $scope.BankNameClass = 'fa fa-pencil';
+            $scope.BankAccNoClass = 'fa fa-pencil';
+            $scope.PANClass = 'fa fa-pencil';
+
+            $scope.PasswordDisabled = true;
+            $scope.FirstNameDisabled = true;
+            $scope.EmailDisabled = true;
+            $scope.LastNameDisabled = true;
+            $scope.MobileDisabled = true;
+            $scope.StateDisabled = true;
+            $scope.CityDisabled = true;
+            $scope.Addrline1Disabled = true;
+            $scope.Addrline2Disabled = true;
+            $scope.dobDisabled = true;
+            $scope.PincodeDisabled = true;
+            $scope.BloodGroupDisabled = true;
+            $scope.BankNameDisabled = true;
+            $scope.BankAccNoDisabled = true;
+            $scope.PANDisabled = true;
+
+            $scope.Adddob = function () {
+                $scope.dobDisabled = !$scope.dobDisabled;
+                $scope.dobClass = "fa fa-check";
+                $scope.DOBType = "date";
+                if ($scope.dobDisabled && $scope.dob != "NaN-NaN-NaN") {
+                    $scope.dobClass = "fa fa-pencil";
+                    $scope.DOBType = "text";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../ProfileService.asmx/InsertProfileData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@Session["UserID"]",
+                        RowName: "dob",
+                        Value: $scope.dob
+
+                    }
+                }
+
+                    $http(httpreq).success(function (response) {
+                        var Count = response.toLowerCase().indexOf("true")
+                        if (Count >= 0) {
+                            localStorage.setItem("Notify", "True");
+                            location.reload();
+                        } else {
+                            localStorage.setItem("Notify", "False");
+                            location.reload();
+                        }
+                })
+            }
+
+
+
+
+        }
+
+            $scope.AddProfileData = function (Col) {
+                var icon = Col + 'Class';
+                var disable = Col + 'Disabled';
+                $scope[disable] = !$scope[disable];
+                $scope[icon] = 'fa fa-check';
+                if ($scope[disable]) {
+                    $scope[icon] = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../ProfileService.asmx/InsertProfileData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@Session["UserID"]",
+                            RowName: Col,
+                            Value: $scope[Col]
+
+                    }
+                }
+
+                $http(httpreq).success(function (response) {
+                    var Count = response.toLowerCase().indexOf("true")
+                    if (Count >= 0) {
+                       localStorage.setItem("Notify", "True");
+                        location.reload();
+                    } else {
+                        localStorage.setItem("Notify", "False");
+                        location.reload();
+                    }
+
+                })
+
+
+            }
+
+            }
+
+
+            $scope.AddUserData = function (Dat) {
+                var icon = Dat + 'Class';
+                var disable = Dat + 'Disabled';
+                $scope[disable] = !$scope[disable];
+                $scope[icon] = 'fa fa-check';
+                if ($scope[disable]) {
+                    $scope[icon] = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../ProfileService.asmx/UpdateUserData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@Session["UserID"]",
+                            RowName: Dat,
+                            Value: $scope[Dat]
+
+                    }
+                }
+
+                $http(httpreq).success(function (response) {
+                    var Count = response.toLowerCase().indexOf("true")
+                    if (Count >= 0) {
+                        localStorage.setItem("Notify", "True");
+                        location.reload();
+                    } else {
+                        localStorage.setItem("Notify", "False");
+                        location.reload();
+                    }
+
+                })
+            }
+
+
+
+        }
+
+
+
+            function base64ToBlob(base64Data, contentType) {
+                contentType = contentType || '';
+                var sliceSize = 1024;
+                var byteCharacters = atob(base64Data);
+                var bytesLength = byteCharacters.length;
+                var slicesCount = Math.ceil(bytesLength / sliceSize);
+                var byteArrays = new Array(slicesCount);
+
+                for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                    var begin = sliceIndex * sliceSize;
+                    var end = Math.min(begin + sliceSize, bytesLength);
+
+                    var bytes = new Array(end - begin);
+                    for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+                        bytes[i] = byteCharacters[offset].charCodeAt(0);
+                    }
+                    byteArrays[sliceIndex] = new Uint8Array(bytes);
+                }
+                return new Blob(byteArrays, { type: contentType });
+            }
+
+            // Variables
+            $scope.Message = "";
+            $scope.FileInvalidMessage = "";
+            $scope.SelectedFileForUpload = null;
+            $scope.IsFormSubmitted = false;
+            $scope.IsFileValid = false;
+            $scope.IsFormValid = false;
+
+            //Form Validation
+            $scope.$watch("f1.$valid", function (isValid) {
+                $scope.IsFormValid = isValid;
+            });
+
+
+            // THIS IS REQUIRED AS File Control is not supported 2 way binding features of Angular
+            // ------------------------------------------------------------------------------------
+            //File Validation
+            $scope.ChechFileValid = function (file) {
+                var isValid = false;
+                if ($scope.SelectedFileForUpload != null) {
+                    if ((file.type == 'image/png' || file.type == 'image/jpeg' || file.type == 'image/gif') && file.size <= (2048 * 1024)) {
+                        $scope.FileInvalidMessage = "";
+                        isValid = true;
+                    }
+                    else {
+                        $scope.FileInvalidMessage = "Selected file is Invalid. (only file type png, jpeg and gif and 2 MB size allowed)";
+                    }
+                }
+                else {
+                    $scope.FileInvalidMessage = "Image required!";
+                }
+                $scope.IsFileValid = isValid;
+            };
+
+            //File Select event
+            $scope.selectFileforUpload = function (file) {
+                $scope.SelectedFileForUpload = file[0];
+            }
+            //----------------------------------------------------------------------------------------
+
+            //Save File
+            $scope.SaveFile = function () {
+                var blob = base64ToBlob($scope.myCroppedImage.replace('data:image/png;base64,', ''), 'image/jpeg');
+                var fileconvert = new File([blob], '1.jpg');
+                $scope.Cropped = fileconvert;
+                $scope.IsFormSubmitted = true;
+                $scope.Message = "";
+                $scope.ChechFileValid($scope.SelectedFileForUpload);
+                if ($scope.IsFormValid && $scope.IsFileValid) {
+                    FileUploadService.UploadFile($scope.Cropped).then(function (d) {
+                        alert(d.Message);
+                        ClearForm();
+						 localStorage.setItem("Notify", "True");
+                        location.reload();
+                    }, function (e) {
+                        alert(e);
+                    });
+                }
+                else {
+                    $scope.Message = "All the fields are required.";
+                }
+            };
+            //Clear form
+            function ClearForm() {
+
+                //as 2 way binding not support for File input Type so we have to clear in this way
+                //you can select based on your requirement
+                angular.forEach(angular.element("input[type='file']"), function (inputElem) {
+                    angular.element(inputElem).val(null);
+                });
+
+                $scope.f1.$setPristine();
+                $scope.IsFormSubmitted = false;
+            }
+
+
+
+        });
+        app.factory('FileUploadService', function ($http, $q) { // explained abour controller and service in part 2
+
+            var fac = {};
+            fac.UploadFile = function (file) {
+                var formData = new FormData();
+                formData.append("file", file);
+                //We can send more data to server using append
+
+                var defer = $q.defer();
+                $http.post("/Pages/SaveFiles", formData,
+                    {
+                        withCredentials: true,
+                        headers: { 'Content-Type': undefined },
+                        transformRequest: angular.identity
+                    })
+                .success(function (d) {
+                    defer.resolve(d);
+                })
+                .error(function () {
+                    defer.reject("File Upload Failed!");
+                });
+
+                return defer.promise;
+
+            }
+            return fac;
+
+        });
+    </script>
+<script>
+    $(document).ready(function () {
+        var Notification = localStorage.getItem("Notify");
+
+        if (Notification != "" && Notification != null && Notification=='True') {
+            Notify('Profile Updated Successfully', 'fa-check', '', 'success', true);
+            localStorage.removeItem("Notify");
+        } else if (Notification != "" && Notification != null && Notification == 'False') {
+            Notify('Error Updating Profile', 'fa-warning', '', 'error', true);
+            localStorage.removeItem("Notify");
+        }
+        
+    });
+
+</script>
+ 
+}
+

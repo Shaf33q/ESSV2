@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ESSV2.Models.UserAccounts>
+@{
+    ViewBag.Title = "ViewUser";
+}
+@section Styles{
+
+
+}
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+           View/Edit @ViewBag.Type
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">View/Edit @ViewBag.Type</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">     
+               <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">List of @ViewBag.Type</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-2 col-sm-4">
+
+                                <div class="trainer-inner" style="visibility: visible;">
+                                   
+                                    <div class="trainer-image-box">
+                                        @{
+                                            string path = Server.MapPath("~/ProfileImg/P" + item.UserID + ".jpg");
+                                            ViewBag.ProfPic=System.IO.File.Exists(path) ? "../../ProfileImg/P" + item.UserID + ".jpg" : "../../ProfileImg/nobody.jpg";
+                                        }
+                                       
+                                        <img src="@ViewBag.ProfPic" style="max-width: 100%;height: auto;">
+                                        <div class="trainer-box-hover">
+                                            <ul>
+                                                <li><a href="@Url.Action("ViewProfile","Pages", new { id = item.UserID })"><i class="fa fa-search"  data-toggle="tooltip" data-placement="top" data-original-title="View"></i></a></li>
+                                                <li><a href="@Url.Action("EditUser", new { id = item.UserID })">
+    <i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" data-original-title="Edit"></i>
+</a></li>
+                                                <li><a href="@Url.Action("DeleteUser", new { id = item.UserID })" onclick = "return confirm('Are you sure you wish to delete this User?');">
+    <i class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Delete"></i>
+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <small class="label pull-right bg-aqua">#@Html.DisplayFor(modelItem => item.UserID)</small>
+                                    <h3>@Html.DisplayFor(modelItem => item.Username)</h3>
+                                    <p>@Html.DisplayFor(modelItem => item.Role)</p>
+                                </div>
+                            </div>
+                           
+                        }
+
+                       
+                    </div><!-- /.box-body -->
+
+
+
+                </div><!-- /.box -->
+
+
+            </div>
+        </div>
+
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+    
+}

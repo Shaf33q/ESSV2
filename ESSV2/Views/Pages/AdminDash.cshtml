@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "Admin DashBoard";
+}
+
+@section Styles{
+
+  
+}
+
+
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@ViewBag.UsersRegistered</h3>
+
+                        <p>User Registrations</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                  
+                    <a href="~/Home/Register" class="small-box-foot" style="float:left" >Add User <i class="fa  fa-user-plus"></i></a>
+                    <a href="~/Home/ViewUser" class="small-box-foot">View/Edit  <i class="fa  fa-edit"></i></a>
+                   
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>@ViewBag.Tasks</h3>
+
+                        <p>Pending Tasks</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-stack-overflow"></i>
+                    </div>
+                    <a href="~/Pages/AddTasks" class="small-box-foot" style="float:left">Add Tasks <i class="fa  fa-plus-circle"></i></a>
+                    <a href="~/Pages/AllTasks" class="small-box-foot">View/Edit <i class="fa  fa-edit"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>@ViewBag.IPs</h3>
+
+                        <p>Router Registrations</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-feed"></i>
+                    </div>
+                    <a href="~/Home/Routers" class="small-box-footer">Add/View IP's <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@ViewBag.HolidayCount</h3>
+
+                        <p>Holiday Requests</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-child"></i>
+                    </div>
+                    <a href="~/Pages/AllHolidays" class="small-box-footer">View Requests <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+           
+         
+           
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-maroon">
+                    <div class="inner">
+                        <h3>@ViewBag.Holiday</h3>
+
+                        <p>Next Holiday</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-flag-checkered"></i>
+                    </div>
+                    <a href="~/Pages/AddHolidays" class="small-box-footer">Add/View Holidays <i class="fa fa-arrow-circle-right"></i></a>
+                   
+
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-teal">
+                    <div class="inner">
+                        <h3>@ViewBag.PaySlip</h3>
+
+                        <p>PaySlips Generated For Last Month</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-files-o"></i>
+                    </div>
+                    <a href="~/Pages/PaySlipGenerate" class="small-box-foot" style="float:left">Generate <i class="fa   fa-plus-circle"></i></a>
+                    <a href="~/Pages/PaySlipView" class="small-box-foot">View/Edit <i class="fa  fa-edit"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            
+           
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-purple">
+                    <div class="inner">
+                        <h3>@ViewBag.Absenties</h3>
+
+                        <p>Absenties</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-user-secret"></i>
+                    </div>
+                    <a href="~/Pages/RunAttService" class="small-box-foot" style="float:left">Run Service <i class="fa fa-heartbeat"></i></a>
+                    <a href="@Url.Action("ViewUser", "Home", new { Absenties = "True" })" class="small-box-foot">View Absenties <i class="fa  fa-chevron-right"></i></a>
+                   
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-olive">
+                    <div class="inner">
+                        <h3>0</h3>
+
+                        <p>Vacancies</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bookmark-o "></i>
+                    </div>
+                    <a href="~/Pages/InsertJobDetails" class="small-box-foot" style="float:left">Insert <i class="fa fa-bolt"></i></a>
+                    <a href="~/Pages/JobList" class="small-box-foot">View  <i class="fa  fa-chevron-right"></i></a>
+
+                </div>
+            </div>
+            <!-- ./col -->
+
+
+
+        </div>
+    
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+
+   
+}

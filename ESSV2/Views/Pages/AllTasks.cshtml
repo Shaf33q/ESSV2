@@ -1,0 +1,489 @@
+﻿@model IEnumerable<ESSV2.Models.TaskData>
+@{
+    ViewBag.Title = "AllTasks";
+}
+
+@section Styles{
+<style>
+    .text-shower {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+   
+</style>
+
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            View All Tasks
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">View All Tasks</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+  
+
+    <section class="content">
+        <div class="row" ng-app="TaskViewer" ng-controller="TaskViewController">
+            <div class="col-md-3">
+                <a href="@Url.Action("AddTasks","Pages")" class="btn btn-primary btn-block margin-bottom">Add Tasks</a>
+
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Folders</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active">
+                                <a data-toggle="tab" href="#InProgress">
+                                    <i class="fa fa-inbox"></i> All Task
+                                    <span class="label label-primary pull-right">@ViewBag.TasksCount</span>
+                                </a>
+                            </li>
+                            <li><a data-toggle="tab" href="#Completed"><i class="fa fa-envelope-o"></i> Completed</a></li>
+                            <li><a data-toggle="tab" href="#Self"><i class="fa fa-file-text-o"></i> Own Tasks</a></li>
+                            <li><a data-toggle="tab" href="#ShowStoppers"><i class="fa fa-circle-o text-red"></i> Show Stoppers</a></li>
+
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /. box -->
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Priorities</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#ShowStoppers"><i class="fa fa-circle-o text-red"></i> Show Stopper</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> High</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> Low</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="InProgress">
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">All Tasks</h3>
+
+                                <div class="box-tools pull-right">
+                                    <div class="has-feedback">
+                                        <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+
+                                <div class="table-responsive mailbox-messages">
+                                 
+
+                                    <table class="table">
+                                        <tr>
+
+                                            <th>
+                                                
+                                            </th>
+                                            <th class="text-justify">
+                                                @Html.DisplayNameFor(model => model.TaskName)
+                                            </th>
+                                            <th class="text-justify">
+                                                @Html.DisplayNameFor(model => model.AllotedTo)
+                                            </th>
+                                            <th class="text-justify">
+                                                @Html.DisplayNameFor(model => model.DateAlloted)
+                                            </th>
+                                            <th class="text-justify">
+                                                @Html.DisplayNameFor(model => model.Status)
+                                            </th>
+                                            <th class="text-justify">
+                                                Action
+                                            </th>
+                                            
+                                        </tr>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.Status == "Inprogress")
+                                            {
+                                                <tr>
+
+                                                    <td style="width: 5em;" class="text-justify">
+                                                        <i class="fa fa-circle-o text-@item.Priority"></i>@Html.HiddenFor(modelItem => item.TaskID)
+                                                    </td> 
+                                                    <td  class="text-shower ellipsis text-justify" style="width: 12em; white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">
+                                                        <div>
+                                                            <a href="#" data-toggle="modal" data-target="#TaskInfo" ng-click="select(@item.TaskID)"><b>@Html.DisplayFor(modelItem => item.TaskName)</b></a>
+                                                            
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-justify">
+                                                        @Html.DisplayFor(modelItem => item.AllotedUser)
+                                                    </td>
+                                                    <td class="text-justify">
+                                                        @Html.DisplayFor(modelItem => item.DateAlloted)
+                                                    </td>
+                                                    <td class="text-justify">
+                                                        @Html.DisplayFor(modelItem => item.Status)
+                                                    </td>
+                                                    <td class="text-justify">
+                                                        @*<a href="#">
+                                                            <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" data-original-title="Edit"></i>
+                                                        </a>*@
+
+                                                        <a href="@Url.Action("DeleteTask", new { id = item.TaskID,Type=2})">
+                                                            <i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" data-original-title="Delete" onclick = "return confirm('Are you sure you wish to delete this Task?');"></i>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        }
+
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.mail-box-messages -->
+                            </div>
+                            <!-- /.box-body -->
+
+                        </div>
+                        <!-- /. box -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="Self">
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Own Tasks</h3>
+
+                                <div class="box-tools pull-right">
+                                    <div class="has-feedback">
+                                        <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+
+                                <div class="table-responsive mailbox-messages">
+                                    <table class="table table-hover table-striped">
+                                        <tbody>
+                                                <tr>
+                                                    <th>
+
+                                                    </th>
+                                                    <th class="text-justify">
+                                                        @Html.DisplayNameFor(model => model.TaskName)
+                                                    </th>
+                                                    <th class="text-justify">
+                                                        @Html.DisplayNameFor(model => model.AllotedTo)
+                                                    </th>
+                                                    <th class="text-justify">
+                                                        @Html.DisplayNameFor(model => model.DateAlloted)
+                                                    </th>
+                                                    <th class="text-justify">
+                                                        @Html.DisplayNameFor(model => model.Status)
+                                                    </th>
+                                                    
+                                                </tr>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                if (item.Status == "Self")
+                                                {
+                                                    <tr>
+
+                                                        <td style="width: 5em;" class="text-justify">
+                                                            <i class="fa fa-circle-o text-@item.Priority"></i>@Html.HiddenFor(modelItem => item.TaskID)
+                                                        </td>
+                                                        <td class="text-shower ellipsis text-justify" style="width: 12em; white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">
+                                                            <div>
+                                                                <a href="#" data-toggle="modal" data-target="#TaskSelf" ng-click="select(@item.TaskID)"><b>@Html.DisplayFor(modelItem => item.TaskName)</b></a>
+
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.AllotedUser)
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.DateAlloted)
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.Status)
+                                                        </td>
+                                                        
+                                                    </tr>
+
+
+                                                }
+
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.mail-box-messages -->
+                            </div>
+                            <!-- /.box-body -->
+
+                        </div>
+                        <!-- /. box -->
+                    </div>
+                </div>
+                <!-- /.col -->
+                <!-- /.col -->
+                <div class="tab-pane" id="Completed">
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Completed</h3>
+
+                                <div class="box-tools pull-right">
+                                    <div class="has-feedback">
+                                        <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+
+                                <div class="table-responsive mailbox-messages">
+                                    <table class="table table-hover table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.TaskName)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.AllotedTo)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.DateAlloted)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.Status)
+                                                </th>
+                                               
+                                            </tr>
+                                            @foreach (var item in Model)
+                                            {
+                                                if (item.Status == "Completed")
+                                                {
+                                                    <tr>
+
+                                                        <td style="width: 5em;" class="text-justify">
+                                                            <i class="fa fa-circle-o text-@item.Priority"></i>@Html.HiddenFor(modelItem => item.TaskID)
+                                                        </td>
+                                                        <td class="text-shower ellipsis text-justify" style="width: 12em; white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">
+                                                            <div>
+                                                                <a href="#" data-toggle="modal" data-target="#TaskInfo" ng-click="select(@item.TaskID)"><b>@Html.DisplayFor(modelItem => item.TaskName)</b></a>
+
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.AllotedUser)
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.DateAlloted)
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            @Html.DisplayFor(modelItem => item.Status)
+                                                        </td>
+                                                        <td class="text-justify">
+                                                            <a href="@Url.Action("IncompleteTask", new { id = item.TaskID,red=1 })">
+                                                                <i class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Incomplete"></i>
+                                                            </a>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                }
+
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.mail-box-messages -->
+                            </div>
+                            <!-- /.box-body -->
+
+                        </div>
+                        <!-- /. box -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="ShowStoppers">
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Show Stoppers</h3>
+
+                                <div class="box-tools pull-right">
+                                    <div class="has-feedback">
+                                        <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+
+                                <div class="table-responsive mailbox-messages">
+                                    <table class="table table-hover table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.TaskName)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.AllotedTo)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.DateAlloted)
+                                                </th>
+                                                <th class="text-justify">
+                                                    @Html.DisplayNameFor(model => model.Status)
+                                                </th>
+                                                <th class="text-justify">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                            @foreach (var item in Model)
+                                            {
+                                                if (item.Priority == "red")
+                                                {
+                                                    <tr>
+
+                                                        <td style="width: 5em;">
+                                                            <i class="fa fa-circle-o text-@item.Priority"></i>@Html.HiddenFor(modelItem => item.TaskID)
+                                                        </td>
+                                                        <td class="text-shower ellipsis" style="width: 12em; white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">
+                                                            <div>
+                                                                <a href="#" data-toggle="modal" data-target="#TaskInfo" ng-click="select(@item.TaskID)"><b>@Html.DisplayFor(modelItem => item.TaskName)</b></a>
+
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.AllotedUser)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.DateAlloted)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Status)
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                }
+
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.mail-box-messages -->
+                            </div>
+                            <!-- /.box-body -->
+
+                        </div>
+                        <!-- /. box -->
+                    </div>
+                </div>
+              
+            </div>
+            <!-- /.col -->
+            @Html.Partial("_ViewTask")
+
+
+        </div>
+        <!-- /.row -->
+    </section>
+
+    <!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+@section Scripts{
+
+<script src="~/Scripts/angular.min(1).js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script>
+        //Define angular app
+    var app = angular.module("TaskViewer", []);
+
+        //controllers
+        app.controller('TaskViewController', function ($scope, $http) {
+          
+
+            $scope.select = function (taskid) {
+                $scope.TaskEdit = true;
+                var transform = function (data) {
+                    return $.param(data);
+                }
+                var postdat = {
+                    TaskID: taskid
+                };
+                $http.post("../ProfileService.asmx/GetTaskDetails", postdat, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    transformRequest: transform
+                }).success(function (response) {
+                    //do stuff with response
+                    $scope.Taskdata = response;
+                });
+
+        };
+
+          
+
+         
+        });
+
+</script>
+
+}
+

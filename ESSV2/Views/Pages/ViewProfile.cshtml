@@ -1,0 +1,800 @@
+﻿@model ESSV2.Models.AllAttendanceData
+@{
+    ViewBag.Title = "ViewProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <link href="~/Content/calendar.css" rel="stylesheet" />
+    <link href="~/Content/custom_2.css" rel="stylesheet" />
+
+}
+
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+           View User
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> DashBoard</a></li>
+            <li class="active">View User</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+
+        <!-- Attendancce Average -->
+        <div class="row">
+            <div class="col-md-12">
+             <div class="" style="min-height:600px;" ng-app="demo" ng-controller="calendarDemo">
+                    <div class="">
+                        <div class="" id="Profile">
+                            <div class="col-md-6">
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile bg-aqua-active">
+                                        <div class="col-md-5">
+                                            @{
+                                                string path = Server.MapPath("~/ProfileImg/P" + ViewBag.ID + ".jpg");
+                                                ViewBag.ProfPic = System.IO.File.Exists(path) ? "../../ProfileImg/P" + ViewBag.ID + ".jpg" : "../../ProfileImg/nobody.jpg";
+                                            }
+                                            <img class="profile-user-img img-responsive img-circle" src="@ViewBag.ProfPic" alt="User profile picture">
+                                        </div>
+                                        <div class="col-md-6">
+                                           
+                                            <h3 class="profile-username text-center " style="padding-top:20px;">@ViewBag.Name</h3>
+                                            <p class="text-muted text-center ">@ViewBag.Role </p>
+                                            <div class="text-center">
+                                                <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>&nbsp; &nbsp; &nbsp;
+                                                <a class="btn btn-social-icon btn-google"><i class="fa fa-google-plus"></i></a>&nbsp; &nbsp; &nbsp;
+                                                <a class="btn btn-social-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>&nbsp; &nbsp; &nbsp;
+                                                <a class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="text-center"><a href="#Score" data-toggle="tab">Payment</a></li>
+                                            <li class="active text-center"><a href="#Details" data-toggle="tab">Details</a></li>
+                                            <li class="text-center"><a href="#Leaves" data-toggle="tab">Leaves</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane" id="Score" style="height: 350px; padding-top:35px;">
+                                                <div class="row">
+                                                    <div class="col-xs-4">Bank Name</div>
+                                                    <div class="col-xs-8">
+                                                        <p class="text-muted">@ViewBag.BankName</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-4">Account Number</div>
+                                                    <div class="col-xs-8">
+                                                        <p class="text-muted">@ViewBag.BankAccNo</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-4">PAN Number</div>
+                                                    <div class="col-xs-8">
+                                                        <p class="text-muted">@ViewBag.PAN</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding-top:6px;">
+                                                    <div class="col-xs-4">Salary</div>
+                                                    <div class="col-xs-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="" placeholder="Salary" ng-model="Salary" ng-disabled="SalaryDisabled">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" ng-click="AddProfileData('Salary')">
+                                                                    <i ng-class="SalaryClass"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane active" id="Details" style="height: 350px;">
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">User Name</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.UserName</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Email</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.Email</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Date Of Birth</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.DOB</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Address</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.Address</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Mobile</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.Mobile</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Blood Group</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.BldGrp</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Experience</div>
+                                                        <div class="col-xs-8">
+                                                            <p class="text-muted">@ViewBag.Exp</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-top:6px;">
+                                                        <div class="col-xs-4">Designation</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group">
+                                                              <input type="text" class="form-control" id="" placeholder="Designation" ng-model="Designation" ng-disabled="DesignationDisabled">
+                                                                <span class="input-group-btn"> 
+                                                                <button class="btn btn-default" type="button" ng-click="AddProfileData('Designation')">
+                                                                    <i ng-class="DesignationClass"></i>
+                                                                    </button> 
+                                                                </span>
+                                                             </div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="row" style="padding-top:6px;">
+                                                        <div class="col-xs-4">Join Date</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group">
+                                                                <input type="{{JDateType}}" class="form-control" id="JDate" ng-model="JDate" placeholder="Join Date" ng-disabled="JDateDisabled">
+                                                                <span class="input-group-btn"> <button class="btn btn-default" type="button" ng-click="AddJDate()">
+                                                                    <i ng-class="JDateClass"></i>
+                                                                    </button> 
+                                                                </span>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+
+
+                                                   
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="Leaves" style="height: 350px;">
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-4">Medical Leaves</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="MedLeaves" ng-model="MedLeaves" placeholder="Medical Leaves" ng-disabled="MedLeavesDisabled">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" type="button" ng-click="AddMedLeaves()">
+                                                                        <i ng-class="MedLeavesClass"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-top:10px;">
+                                                        <div class="col-xs-4">Casual Leaves</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="CasLeaves" ng-model="CasLeaves" placeholder="Casual Leaves" ng-disabled="CasLeavesDisabled">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" type="button" ng-click="AddCasLeaves()">
+                                                                        <i ng-class="CasLeavesClass"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-top:10px;">
+                                                        <div class="col-xs-4">Extra Days</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control ng-pristine ng-valid" id="ExtraDays" ng-model="Extra" placeholder="Extra Days" ng-disabled="ExtraDisabled">
+                                                                <span class="input-group-btn">
+                                                                    <button id="ExtraDays" class="btn btn-default" type="button" ng-click="AddExtra()">
+                                                                        <i ng-class="ExtraClass" class="fa fa-pencil"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" style="padding-top:50px;">
+                                                        <div class="col-xs-4 text-center">
+
+                                                        </div>
+                                                        <!-- ./col -->
+                                                        <div class="col-xs-4 text-center">
+                                                            
+                                                        </div>
+                                                        <!-- ./col -->
+                                                        <div class="col-xs-4 text-center">
+                                                           
+                                                        </div>
+                                                        <!-- ./col -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CALENDAR -->
+
+                            <div class="col-md-6">
+                                <div  class="cal-context">
+
+
+                                    <div class="custom-calendar-wrap">
+                                        <div id="custom-inner" class="custom-inner">
+                                            <div class="custom-header clearfix">
+                                                <nav>
+                                                    <span id="custom-prev" class="custom-prev" ng-click="previous()"></span>
+                                                    <span id="custom-next" class="custom-next" ng-click="next()"></span>
+                                                </nav>
+                                                <h2 id="custom-month" class="custom-month">{{month.format("MMMM")}}</h2>
+                                                <h3 id="custom-year" class="custom-year">{{month.format("YYYY")}}</h3>
+                                            </div>
+                                            <div class="cal-row-fluid cal-row-head fc-head">
+
+                                                <div class="cal-cell1 fc-head">Sun</div>
+
+                                                <div class="cal-cell1">Mon</div>
+
+                                                <div class="cal-cell1">Tue</div>
+
+                                                <div class="cal-cell1">Wed</div>
+
+                                                <div class="cal-cell1">Thu</div>
+
+                                                <div class="cal-cell1">Fri</div>
+
+                                                <div class="cal-cell1">Sat</div>
+
+                                            </div>
+                                            <div class="cal-month-box">
+                                                <div class="cal-row-fluid cal-before-eventlist" ng-repeat="week in weeks">
+
+
+                                                    <div class="cal-cell1 cal-cell" ng-repeat="day in week.days" ng-click="select(day)">
+                                                        <div ng-class="{present: day.isPresent,absent: day.isAbsent, 'different-month': !day.isCurrentMonth, selected: day.date.isSame(selected) }" class="cal-month-day cal-day-outmonth cal-day-weekend cal-month-first-row" ng-click="select(day)">
+                                                            <span class="pull-right" ng-class="{today: day.isToday}">{{day.number}}</span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="custom-content-reveal" id="custom-content-reveal" style="top: 0%;display:none">
+                                            <h4>Clock Info for <span> <b>{{day.format('dddd, MMMM Do YYYY')}}</b></span></h4>
+
+                                            <div align="center" style="padding:0 30px;" ng-hide="clockdata.length == 0">
+                                                <table class="table table-bordered table-hover table-responsive table-striped table-calendar ">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th align="center">
+                                                                Clock In
+                                                            </th>
+                                                            <th align="center">
+                                                                Clock Out
+                                                            </th>
+                                                            <th align="center">
+                                                                Clock Time
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        <tr ng-repeat="a in clockdata">
+
+                                                            <td align="center">
+                                                                {{a.ClockIn}}
+                                                            </td>
+                                                            <td align="center">
+                                                                {{a.ClockOut}}
+                                                            </td>
+                                                            <td align="center">
+                                                                {{a.Clocktime}}
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered table-hover table-responsive table-striped table-calendar ">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th align="center">
+
+                                                                <label>Total Time</label>
+                                                            </th>
+                                                            <th align="center">
+                                                                <label id="TotalTime"></label>
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+
+
+                                                </table>
+                                            </div>
+                                            <span id="Holiday" ng-show="clockdata.length == 0">No Clock Data Available</span>
+                                            <span class="custom-content-close"></span>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+                            <!-- /CALENDAR -->
+                        </div><!-- /.tab-pane -->
+                    </div><!-- /.tab-content -->
+                </div>
+
+
+            </div>
+        </div>
+        <!--/ Attendancce Average -->
+        <!-- /BASIC -->
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+
+
+
+
+
+
+@section Scripts{
+
+
+    <!-- /JAVASCRIPTS -->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/underscore-min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/plugins/chartjs/Chart.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        jQuery('.skillbar').each(function () {
+            jQuery(this).find('.skillbar-bar').animate({
+                width: jQuery(this).attr('data-percent')
+            }, 2000);
+        });
+
+        var app = angular.module("demo", []);
+        app.filter("dateFilter", function () {
+            return function (item) {
+                if (item != null) {
+                    return new Date(parseInt(item.substr(6)));
+                }
+                return "";
+            };
+        });
+        app.controller("calendarDemo", function ($scope, $http) {
+            $scope.day = moment();
+            $scope.selected = _removeTime($scope.selected || moment());
+            $scope.month = $scope.selected.clone();
+            var AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+            var AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+            var AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+            var start = $scope.selected.clone();
+            start.date(1);
+            _removeTime(start.day(0));
+            _setMonthdata($scope.month.month(), $scope.month.year(), $scope, start, $scope.month);
+
+
+            $scope.select = function (day) {
+                $scope.selected = day.date;
+                $scope.day = $scope.selected;
+                var d = (($scope.day.date()) / 10 < 1) ? "0" + ($scope.day.date()) : ($scope.day.date());
+                var m = (($scope.day.month() + 1) / 10 < 1) ? "0" + ($scope.day.month() + 1) : ($scope.day.month() + 1);
+                var p = $scope.day.year() + "-" + m + "-" + d;
+                var total = 0;
+                var transform = function (data) {
+                    return $.param(data);
+                }
+                var Holdat = {
+                    Date: p
+                };
+                var postdat = {
+                    Date: p, UserID: "@ViewBag.ID"
+                };
+                $http.post('../../ProfileService.asmx/GetDayClockData', postdat, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    transformRequest: transform
+                }).success(function (response) {
+                    $scope.clockdata = response;
+                    angular.forEach($scope.clockdata, function (a) {
+                        total += toSeconds(a.Clocktime);
+
+                    })
+                    $("#TotalTime").text(toHHMMSS(total));
+
+                });
+                $http.post('../../ProfileService.asmx/GetHoliday', Holdat, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    transformRequest: transform
+                }).success(function (response) {
+                    if (response != "") {
+                        $("#Holiday").text(response);
+                    } else {
+                        $("#Holiday").text("No Clock Data Available");
+                    }
+
+                });
+                ShowClockTime();
+
+            };
+
+            $scope.next = function () {
+                AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                var next = $scope.month.clone();
+                _removeTime(next.month(next.month() + 1).date(1));
+                $scope.month.month($scope.month.month() + 1);
+                _setMonthdata($scope.month.month(), $scope.month.year(), $scope, next, $scope.month);
+
+            };
+
+            $scope.previous = function () {
+                AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                var previous = $scope.month.clone();
+                _removeTime(previous.month(previous.month() - 1).date(1));
+                $scope.month.month($scope.month.month() - 1);
+                _setMonthdata($scope.month.month(), $scope.month.year(), $scope, previous, $scope.month);
+
+
+
+            };
+            function _removeTime(date) {
+                return date.day(0).hour(0).minute(0).second(0).millisecond(0);
+            }
+            function _setMonthdata(Cmonth, Cyear, B1, B2, B3) {
+                var transform = function (data) {
+                    return $.param(data);
+                }
+
+
+                $scope.mmonth = ((Cmonth + 1) / 10 < 1) ? $scope.mmonth = "0" + (Cmonth + 1) : $scope.mmonth = (Cmonth + 1);
+                $scope.myear = Cyear;
+                var user = {
+                    MonthNo: $scope.mmonth, YearNo: $scope.myear, UserID: "@ViewBag.ID"
+                };
+                $http.post('../../ProfileService.asmx/GetMonthData', user, {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    transformRequest: transform
+                }).success(function (response) {
+                    $scope.attdata = response;
+                    angular.forEach(response, function (Week) {
+                        console.log(Week.Status);
+                        if (Week.Status == "AB") {
+                            AttAbsent[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                        } else if (Week.Status == "H") {
+                            AttHol[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                        } else {
+                            AttPresent[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                        }
+
+                    });
+                    _buildMonth(B1, B2, B3);
+                });
+            }
+
+            function _buildMonth($scope, start, month) {
+                $scope.weeks = [];
+                var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
+                $scope.Cmonth = month.month();
+                while (!done) {
+                    $scope.weeks.push({ days: _buildWeek(date.clone(), month, count, monthIndex) });
+                    date.add(1, "w");
+                    done = count++ > 2 && monthIndex !== date.month();
+                    monthIndex = date.month();
+
+                }
+
+            }
+
+
+
+
+            function MarkAttendance(i, j, k, year) {
+                AttPresentDate = year + "-" + (k + 1) + "-" + AttPresent[i][j];
+                return AttPresentDate;
+            }
+            function MarkAbsent(i, j, k, year) {
+                var AttAbsentDate = year + "-" + (k + 1) + "-" + AttAbsent[i][j];
+                return AttAbsentDate;
+            }
+
+            function _buildWeek(date, month, weekno) {
+                var days = [];
+
+
+                for (var i = 0; i < 7; i++) {
+                    days.push({
+                        name: date.format("dd").substring(0, 1),
+                        number: date.date(),
+                        isCurrentMonth: date.month() === month.month(),
+                        isToday: date.isSame(new Date(), "day"),
+                        isAbsent: date.isSame(MarkAbsent(weekno, i, month.month(), date.year()), "day"),
+                        isPresent: date.isSame(MarkAttendance(weekno, i, month.month(), date.year()), "day"),
+                        date: date
+                    });
+                    date = date.clone();
+                    date.add(1, "d");
+
+                }
+                return days;
+
+            }
+
+
+            $scope.CasLeaves = "@ViewBag.CasLeaves";
+            $scope.CasLeavesDisabled = true;
+            $scope.CasLeavesClass = "fa fa-pencil";
+            $scope.AddCasLeaves = function () {
+                $scope.CasLeavesDisabled = !$scope.CasLeavesDisabled;
+                $scope.CasLeavesClass = "fa fa-check";
+                if ($scope.CasLeavesDisabled) {
+                    $scope.CasLeavesClass = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../../ProfileService.asmx/InsertLeaveData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@ViewBag.ID",
+                            RowName: "RemCasual/Casual",
+                            Value: $scope.CasLeaves
+
+                        }
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        alert(response.data);
+
+                    })
+
+
+                }
+
+
+
+
+            }
+            //asdasdasd
+            $scope.MedLeaves = "@ViewBag.MedLeaves";
+            $scope.MedLeavesDisabled = true;
+            $scope.MedLeavesClass = "fa fa-pencil";
+            $scope.AddMedLeaves = function () {
+                $scope.MedLeavesDisabled = !$scope.MedLeavesDisabled;
+                $scope.MedLeavesClass = "fa fa-check";
+                if ($scope.MedLeavesDisabled) {
+                    $scope.MedLeavesClass = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../../ProfileService.asmx/InsertLeaveData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@ViewBag.ID",
+                            RowName: "RemMedical/Medical",
+                            Value: $scope.MedLeaves
+
+                        }
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        alert(response.data);
+
+                    })
+
+
+                }
+
+
+
+
+            }
+            $scope.Designation = "@ViewBag.Designation";
+            $scope.DesignationDisabled = true;
+            $scope.DesignationClass = "fa fa-pencil";
+            $scope.Salary = "@ViewBag.Salary";
+            $scope.SalaryDisabled = true;
+            $scope.SalaryClass = "fa fa-pencil";
+            $scope.AddProfileData = function (Col) {
+               
+                var icon = Col + 'Class';
+                var disable = Col + 'Disabled';
+                $scope[disable] = !$scope[disable];
+                $scope[icon] = 'fa fa-check';
+                if ($scope[disable]) {
+                    $scope[icon] = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../../ProfileService.asmx/InsertProfileData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@ViewBag.ID",
+                        RowName: Col,
+                        Value: $scope[Col]
+
+                    }
+                }
+
+                $http(httpreq).success(function (response) {
+                    var Count = response.toLowerCase().indexOf("true")
+                    if (Count >= 0) {
+                        localStorage.setItem("Notify", "True");
+                        location.reload();
+                    } else {
+                        localStorage.setItem("Notify", "False");
+                        location.reload();
+                    }
+
+                })
+
+
+            }
+
+        }
+
+
+
+            $scope.JDate = "@ViewBag.JDate";
+            $scope.JDateDisabled = true;
+            $scope.JDateClass = "fa fa-pencil";
+            $scope.JDateType = "text";
+            $scope.AddJDate = function () {
+                $scope.JDateDisabled = !$scope.JDateDisabled;
+                $scope.JDateClass = "fa fa-check";
+                $scope.JDateType = "date";
+                if ($scope.JDateDisabled) {
+                    $scope.JDateClass = "fa fa-pencil";
+                    $scope.JDateType = "text";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../../ProfileService.asmx/UpdateUserData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@ViewBag.ID",
+                            RowName: "JoinDate",
+                            Value: $scope.JDate
+
+                        }
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        alert(response.data);
+
+                    })
+                }
+
+
+
+
+            }
+            $scope.Extra = "@ViewBag.Extra";
+            $scope.ExtraDisabled = true;
+            $scope.ExtraClass = "fa fa-pencil";
+            $scope.AddExtra = function () {
+                $scope.ExtraDisabled = !$scope.ExtraDisabled;
+                $scope.ExtraClass = "fa fa-check";
+                if ($scope.ExtraDisabled) {
+                    $scope.ExtraClass = "fa fa-pencil";
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../../ProfileService.asmx/InsertLeaveData',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            UserID: "@ViewBag.ID",
+                            RowName: "Extra",
+                            Value: $scope.Extra
+
+                        }
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        alert(response.data);
+
+                    })
+
+
+                }
+
+
+
+
+            }
+
+        });
+        $(document).ready(function () {
+
+
+            $(".custom-content-close").click(function () {
+                $(".custom-content-reveal").hide();
+
+            });
+        });
+        function ShowClockTime() {
+            $(".custom-content-reveal").show();
+        }
+        // time = 'hh:mm:ss'
+        function toSeconds(time) {
+            var parts = time.split(':');
+            return (+parts[0]) * 60 * 60 + (+parts[1]) * 60 + (+parts[2]);
+        }
+
+        function toHHMMSS(sec) {
+            var sec_num = parseInt(sec, 10); // don't forget the second parm
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            if (hours < 10) { hours = "0" + hours; }
+            if (minutes < 10) { minutes = "0" + minutes; }
+            if (seconds < 10) { seconds = "0" + seconds; }
+            var time = hours + ':' + minutes + ':' + seconds;
+            return time;
+        }
+    </script>
+ 
+
+}
+
+
+
+
+

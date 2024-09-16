@@ -1,0 +1,124 @@
+﻿@model ESSV2.Models.AllCompData
+@{
+    ViewBag.Title = "Routers";
+}
+
+@section Styles{
+
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Routers
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Routers</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Add Static IP Address</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                        <div class="box-body">
+
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Device Name</label>
+                                    @Html.EditorFor(model => model.CompData.Device, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+                                    @Html.ValidationMessageFor(model => model.CompData.Device, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>IP Address</label>
+                                    @Html.EditorFor(model => model.CompData.IP, new { htmlAttributes = new { @class = "form-control", type = "text" } })
+                                    @Html.ValidationMessageFor(model => model.CompData.IP, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+
+
+                            </div><!-- /.box-body -->
+
+                        <div class="box-footer" align="center">
+                            <button type="submit" class="btn btn-primary">ADD IP</button>
+                        </div>
+                }
+                </div><!-- /.box -->
+                
+                <!-- Form Element sizes -->
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">White Listed IP's</h3>
+                    </div>
+                    <div class="box-body" style="min-height:200px;">
+                        <table class="table">
+                            <tr>
+
+                                <th>
+                                    Device Name
+                                </th>
+                                <th>
+                                    IP Address
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                            @foreach (var item in Model.CompDatae)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Device)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IP)
+                                    </td>
+
+                                    <td>
+
+
+                                        <a href="@Url.Action("DeleteRouter","Home", new { id = item.ID })">
+                                            <i class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+                            }
+
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+               
+           
+        </div>
+       
+        
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+
+
+}

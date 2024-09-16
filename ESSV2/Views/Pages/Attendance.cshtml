@@ -1,0 +1,682 @@
+﻿@model ESSV2.Models.AllAttendanceData
+@{
+    ViewBag.Title = "Attendance";
+}
+
+@section Styles{
+    <link href="~/Content/calendar.css" rel="stylesheet" />
+    <link href="~/Content/custom_2.css" rel="stylesheet" />
+
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Attendance
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Attendance</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+
+        <!-- Attendancce Average -->
+        <div class="row" ng-app="demo" ng-controller="calendarDemo">
+            <div class="col-md-12">
+
+                <div class="nav-tabs-custom" style="min-height:600px;">
+                    <ul class="nav nav-tabs" style="width:100%">
+                        <li class="active" style="width:49%;text-align:center"><a href="#Attendance" data-toggle="tab">Attendance Details</a></li>
+                        <li style="width:49%;text-align:center"><a href="#StatusTab" data-toggle="tab">Leave Management  </a> </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Attendance">
+                            <div class="col-md-6">
+
+                                <div class="box box-default">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Number Of Days Worked</h3>
+
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="chart">
+                                            <canvas id="DaysWorkedChart" height="172"></canvas>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+
+                                <!-- LOG IN(YESTERDAY) -->
+                                <div class="col-md-4">
+                                    <div class="share-btn">
+                                        <span class="share-btn-action share-btn-tweet">Medical Leaves</span>
+                                        <span class="share-btn-count">@ViewBag.MedLeaves</span>
+                                    </div>
+
+                            </div>
+                                    <!-- /LOG IN(YESTERDAY)) -->
+                                    <!-- LOG OUT(YESTERDAY) -->
+                                    <div class="col-md-4">
+                                        <div class="share-btn">
+                                            <span class="share-btn-action share-btn-like">Casual Leaves</span>
+                                            <span class="share-btn-count">@ViewBag.CasLeaves</span>
+                                        </div>
+                                        </div>
+                                    <!-- /LOG OUT(YESTERDAY)) -->
+                                    <!-- LOGIN TIME(TODAY) -->
+                                    <div class="col-md-4">
+                                        <div class="share-btn">
+                                            <span class="share-btn-action share-btn-plus">Extra Days</span>
+                                            <span class="share-btn-count">@ViewBag.Extra</span>
+                                        </div>
+                                    </div>
+                                <div class="col-md-12" style="padding-top:15px;">
+                                    <strong>Weekly Goal:</strong>
+                                    <div class="skillbar clearfix " data-percent="65%">
+                                       
+                                        <div class="skillbar-bar" style="background: #88cd2a;"></div>
+                                        <div class="skill-bar-percent">{{Goaldata}}</div>
+                                    </div>
+
+                                </div>
+
+
+
+                                </div>
+                            <!-- CALENDAR -->
+
+                            <div class="col-md-6">
+                                <div  class="cal-context">
+
+
+                                    <div class="custom-calendar-wrap">
+                                        <div id="custom-inner" class="custom-inner">
+                                            <div class="custom-header clearfix">
+                                                <nav>
+                                                    <span id="custom-prev" class="custom-prev" ng-click="previous()"></span>
+                                                    <span id="custom-next" class="custom-next" ng-click="next()"></span>
+                                                </nav>
+                                                <h2 id="custom-month" class="custom-month">{{month.format("MMMM")}}</h2>
+                                                <h3 id="custom-year" class="custom-year">{{month.format("YYYY")}}</h3>
+                                            </div>
+                                            <div class="cal-row-fluid cal-row-head fc-head">
+
+                                                <div class="cal-cell1 fc-head">Sun</div>
+
+                                                <div class="cal-cell1">Mon</div>
+
+                                                <div class="cal-cell1">Tue</div>
+
+                                                <div class="cal-cell1">Wed</div>
+
+                                                <div class="cal-cell1">Thu</div>
+
+                                                <div class="cal-cell1">Fri</div>
+
+                                                <div class="cal-cell1">Sat</div>
+
+                                            </div>
+                                            <div class="cal-month-box">
+                                                <div class="cal-row-fluid cal-before-eventlist" ng-repeat="week in weeks">
+
+
+                                                    <div class="cal-cell1 cal-cell" ng-repeat="day in week.days" ng-click="select(day)">
+                                                        <div ng-class="{present: day.isPresent,absent: day.isAbsent,holiday: day.isHoliday, 'different-month': !day.isCurrentMonth, selected: day.date.isSame(selected) }" class="cal-month-day cal-day-outmonth cal-day-weekend cal-month-first-row">
+                                                            <span class="pull-right" ng-class="{today: day.isToday}">{{day.number}}</span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="custom-content-reveal" id="custom-content-reveal" style="top: 0%;display:none">
+                                            <h4>Clock Info for <span> <b>{{day.format('dddd, MMMM Do YYYY')}}</b></span></h4>
+                                           
+                                            <div align="center" style="padding:0 30px;" ng-hide="clockdata.length == 0">
+                                                <table class="table table-bordered table-hover table-responsive table-striped table-calendar ">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th align="center">
+                                                                Clock In
+                                                            </th>
+                                                            <th align="center">
+                                                                Clock Out
+                                                            </th>
+                                                            <th align="center">
+                                                                Clock Time
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        <tr ng-repeat="a in clockdata">
+
+                                                            <td align="center">
+                                                                {{a.ClockIn}}
+                                                            </td>
+                                                            <td align="center">
+                                                                {{a.ClockOut}}
+                                                            </td>
+                                                            <td align="center">
+                                                                {{a.Clocktime}}
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered table-hover table-responsive table-striped table-calendar ">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th align="center">
+                                                               
+                                                                <label>Total Time</label>
+                                                            </th>
+                                                            <th align="center">
+                                                                <label id="TotalTime"></label>
+                                                            </th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+
+                                                   
+                                                </table>
+                                            </div>
+                                            <span id="Holiday" ng-show="clockdata.length == 0"></span>
+                                            <span class="custom-content-close"></span>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                               
+                            </div>
+                            <!-- /CALENDAR -->
+                        </div><!-- /.tab-pane -->
+                        
+                        <div class="tab-pane" id="StatusTab">
+                            <span class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ApplyHoliday">Apply Holiday</span>
+                            <div id="ApplyHoliday" class="modal modal-info">
+                                @using (Html.BeginForm("RequestHoliday","Pages",FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title">Apply For Holiday</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label>From Date</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            @Html.EditorFor(model => model.AllHoliday.FromDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                                            @Html.ValidationMessageFor(model => model.AllHoliday.FromDate, "", new { @class = "text-danger" })
+                                                        </div><!-- /.input group -->
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label>To Date</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon ">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            @Html.EditorFor(model => model.AllHoliday.ToDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                                            @Html.ValidationMessageFor(model => model.AllHoliday.ToDate, "", new { @class = "text-danger" })
+                                                        </div><!-- /.input group -->
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label for="comment">Reason:</label>
+                                                        @Html.EditorFor(model => model.AllHoliday.Reason, new { htmlAttributes = new { @class = "form-control", rows = "5", type = "textarea" } })
+                                                        @Html.ValidationMessageFor(model => model.AllHoliday.Reason, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline">Send Request</button>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div>
+                                }
+                            </div>
+                            <table id="example-stats" class="table table-striped  table-sortable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Applied on
+                                        </th>
+                                        <th>
+                                            From
+                                        </th>
+                                        <th>
+                                            To
+                                        </th>
+                                        <th>
+                                            Reason
+                                        </th>
+                                        <th>
+                                            No. of Days
+                                        </th>
+                                        <th>
+                                            Approved By
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.HolidayStatus)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AplliedOn)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FromDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Reason)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Days)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ApprovedBy)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Status)
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("DeleteHolRequest","Pages", new { id = item.ReqID })" onclick="return confirm('Are you sure you wish to delete this Request?');">
+                                                    <i class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Delete"></i>
+                                                </a>
+                                            </td>
+                                            
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div><!-- /.tab-pane -->
+
+                    </div><!-- /.tab-content -->
+                </div>
+
+
+            </div>
+        </div>
+        <!--/ Attendancce Average -->
+        <!-- /BASIC -->
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+    <!-- /JAVASCRIPTS -->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/underscore-min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/plugins/chartjs/Chart.min.js"></script>
+
+    <script type="text/javascript">
+        var app = angular.module("demo", [], function ($httpProvider) {
+
+            // Use x-www-form-urlencoded Content-Type
+            $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+
+            var param = function (obj) {
+                var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+                for (name in obj) {
+                    value = obj[name];
+
+                    if (value instanceof Array) {
+                        for (i = 0; i < value.length; ++i) {
+                            subValue = value[i];
+                            fullSubName = name + '[' + i + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    }
+                    else if (value instanceof Object) {
+                        for (subName in value) {
+                            subValue = value[subName];
+                            fullSubName = name + '[' + subName + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    }
+                    else if (value !== undefined && value !== null)
+                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+                }
+
+                return query.length ? query.substr(0, query.length - 1) : query;
+            };
+
+            // Override $http service's default transformRequest
+            $httpProvider.defaults.transformRequest = [function (data) {
+                return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+            }];
+        });
+        app.filter("dateFilter", function () {
+            return function (item) {
+                if (item != null) {
+                    return new Date(parseInt(item.substr(6)));
+                }
+                return "";
+            };
+        });
+        app.controller("calendarDemo", function ($scope, $http) {
+            $scope.day = moment();
+            var d1 = (($scope.day.date()) / 10 < 1) ? "0" + ($scope.day.date()) : ($scope.day.date());
+            var m1 = (($scope.day.month() + 1) / 10 < 1) ? "0" + ($scope.day.month() + 1) : ($scope.day.month() + 1);
+            var p1 = $scope.day.year() + "-" + m1 + "-" + d1;
+            $scope.selected = _removeTime($scope.selected || moment());
+            $scope.month = $scope.selected.clone();
+            var AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+            var AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+            var AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+
+            _buildProgressBar(p1);
+            var start = $scope.selected.clone();
+            start.date(1);
+            _removeTime(start.day(0));
+            _setMonthdata($scope.month.month(), $scope.month.year(), $scope, start, $scope.month);
+
+
+            $scope.select = function (day) {
+                $scope.selected = day.date;
+                $scope.day = $scope.selected;
+                var d = (($scope.day.date()) / 10 < 1) ? "0" + ($scope.day.date()) : ($scope.day.date());
+                var m = (($scope.day.month() + 1) / 10 < 1) ? "0" + ($scope.day.month() + 1) : ($scope.day.month() + 1);
+                var p = $scope.day.year() + "-" + m + "-" + d;
+                var total = 0;
+                var postdat = {
+                    Date: p, UserID: "@Session["UserID"]"
+                };
+                var Holdat = {
+                    Date: p
+            };
+                $http.post('../ProfileService.asmx/GetDayClockData', postdat).success(function (response) {
+                    $scope.clockdata = response;
+                    angular.forEach($scope.clockdata, function(a){
+                        if(a.Clocktime!="" && a.Clocktime!=null){                            
+                             total +=  toSeconds(a.Clocktime);
+                        }                      
+                })
+                    $("#TotalTime").text(toHHMMSS(total));
+                });
+                $http.post('../ProfileService.asmx/GetHoliday', Holdat).success(function (response) {
+                    if(response!=""){
+                        $("#Holiday").text(response);
+                    }else{
+                        $("#Holiday").text("No Clock Data Available");
+                    }
+
+
+                });
+
+                ShowClockTime();
+            };
+
+
+
+
+
+
+            $scope.next = function () {
+                AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                var next = $scope.month.clone();
+                _removeTime(next.month(next.month() + 1).date(1));
+                $scope.month.month($scope.month.month() + 1);
+                _setMonthdata($scope.month.month(), $scope.month.year(), $scope, next, $scope.month);
+
+            };
+
+            $scope.previous = function () {
+                AttPresent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttAbsent = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                AttHol = [["0", "0", "0", "0", "0", "0", "0"], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""], ["", "", "", "", "", "", ""]];
+                var previous = $scope.month.clone();
+                _removeTime(previous.month(previous.month() - 1).date(1));
+                $scope.month.month($scope.month.month() - 1);
+                _setMonthdata($scope.month.month(), $scope.month.year(), $scope, previous, $scope.month);
+
+
+
+            };
+            function _removeTime(date) {
+                return date.day(0).hour(0).minute(0).second(0).millisecond(0);
+            }
+            function _setMonthdata(Cmonth, Cyear, B1, B2, B3) {
+
+                $scope.mmonth = ((Cmonth + 1) / 10 < 1) ? $scope.mmonth = "0" + (Cmonth + 1) : $scope.mmonth = (Cmonth + 1);
+                $scope.myear = Cyear;
+                var user = {
+                    MonthNo: $scope.mmonth, YearNo: $scope.myear, UserID: "@Session["UserID"]"
+                };
+                $http.post('../ProfileService.asmx/GetMonthData', user).success(function (response) {
+                    $scope.attdata = response;
+                    angular.forEach(response, function (Week) {
+                        console.log(Week.Status);
+                        if (Week.Status=="AB") {
+                            AttAbsent[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                        } else  if (Week.Status=="H") {
+                            AttHol[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                        }else {
+                            AttPresent[Week.Week - 1][Week.Day] = new Date(parseInt((Week.ClockDate).substr(6))).getDate();
+                    }
+
+                    });
+                    _buildMonth(B1, B2, B3);
+                });
+            }
+
+            function _buildMonth($scope, start, month) {
+                $scope.weeks = [];
+                var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
+                $scope.Cmonth = month.month();
+                while (!done) {
+                    $scope.weeks.push({ days: _buildWeek(date.clone(), month, count, monthIndex) });
+                    date.add(1, "w");
+                    done = count++ > 2 && monthIndex !== date.month();
+                    monthIndex = date.month();
+
+                }
+
+            }
+
+            function _buildProgressBar(p1) {
+                var Weekdat={ID:"@Session["UserID"]", Date:p1};
+                $http.post('../ProfileService.asmx/GetWeeklyHours', Weekdat).success(function (response) {
+                if(response!=""){
+                    var time=response.split('.');
+                    $scope.Goaldata = parseFloat(response*2.5).toFixed(2)+"%";
+
+                }else{
+                    $scope.Goaldata = 0+"%";
+                }
+               
+                $('.skillbar').each(function(){
+                    $(this).find('.skillbar-bar').animate({
+                        width:$scope.Goaldata
+                    }, 2000);
+                });
+              
+            });
+
+            }
+
+
+            function MarkAttendance(i, j, k, year) {
+                AttPresentDate = year + "-" + (k + 1) + "-" + AttPresent[i][j];
+                return AttPresentDate;
+            }
+            function MarkAbsent(i, j, k, year) {
+                var AttAbsentDate = year + "-" + (k + 1) + "-" + AttAbsent[i][j];
+                return AttAbsentDate;
+            }
+            function MarkHoliday(i, j, k, year) {
+                var AttHolDate = year + "-" + (k + 1) + "-" + AttHol[i][j];
+                return AttHolDate;
+            }
+
+            function _buildWeek(date, month, weekno) {
+                var days = [];
+
+
+                for (var i = 0; i < 7; i++) {
+                    days.push({
+                        name: date.format("dd").substring(0, 1),
+                        number: date.date(),
+                        isCurrentMonth: date.month() === month.month(),
+                        isToday: date.isSame(new Date(), "day"),
+                        isAbsent: date.isSame(MarkAbsent(weekno, i, month.month(), date.year()), "day"),
+                        isHoliday: date.isSame(MarkHoliday(weekno, i, month.month(), date.year()), "day"),
+                        isPresent: date.isSame(MarkAttendance(weekno, i, month.month(), date.year()), "day"),
+                        date: date
+                    });
+                    date = date.clone();
+                    date.add(1, "d");
+
+                }
+                return days;
+
+            }
+
+
+        });
+        $(document).ready(function () {
+            
+            var Notification = $('#Notification').val();
+            if (Notification != "" && Notification != null)
+            {
+                var res = Notification.split("/");
+                if(res[0]=='Success !!!'){
+                    Notify(res[0], 'fa-check', res[1], 'success', true);
+                }
+                else{
+                    Notify(res[0], 'fa-warning', res[1], 'error', false);
+                }
+
+            }
+
+            $(".custom-content-close").click(function () {
+                $(".custom-content-reveal").hide();
+
+            });
+        });
+        function ShowClockTime() {
+            $(".custom-content-reveal").show();
+
+        }
+        // time = 'hh:mm:ss'
+        function toSeconds( time ) {
+            var parts = time.split(':');
+            return (+parts[0]) * 60 * 60 + (+parts[1]) * 60 + (+parts[2]);
+        }
+
+        function toHHMMSS(sec) {
+            var sec_num = parseInt(sec, 10); // don't forget the second parm
+            var hours   = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            if (hours   < 10) {hours   = "0"+hours;}
+            if (minutes < 10) {minutes = "0"+minutes;}
+            if (seconds < 10) {seconds = "0"+seconds;}
+            var time    = hours+':'+minutes+':'+seconds;
+            return time;
+        }
+        var array = @Html.Raw(Json.Encode(@ViewBag.Labels));
+        var Dataarray = @Html.Raw(Json.Encode(@ViewBag.ChartData));
+        console.log(Dataarray);
+
+    var areaChartData = {
+      labels: array,
+
+      datasets: [
+
+        {
+          label: "Present",
+          fillColor: "rgba(75, 192, 192, 0.2)",
+          strokeColor: "rgba(75, 192, 192, 1)",
+          pointColor: "#3b8bba",
+          pointStrokeColor: "rgba(60,141,188,1)",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(60,141,188,1)",
+          data: Dataarray
+        }
+      ]
+    };
+    //-------------
+    //- BAR CHART -
+    //-------------
+    var barChartCanvas = $("#DaysWorkedChart").get(0).getContext("2d");
+    var barChart = new Chart(barChartCanvas);
+    var barChartData = areaChartData;
+
+    var barChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero: true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke: true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth: 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing: 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing: 1,
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+        //Boolean - whether to make the chart responsive
+        responsive: true,
+        maintainAspectRatio: true
+    };
+
+    barChartOptions.datasetFill = false;
+    barChart.Bar(barChartData, barChartOptions);
+
+</script>
+
+}

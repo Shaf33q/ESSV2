@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ESSV2.Models.SalaryData>
+@{
+    ViewBag.Title = "PaySlips";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Payslips
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Payslips</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header  with-border">
+                        <h3 class="box-title">Your Payslips</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+                        <ul class="mailbox-attachments clearfix">
+@foreach (var item in Model)
+{
+                            <li style="border:1px solid #0094ff">
+                                <span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span>
+
+                                <div class="mailbox-attachment-info bg-navy">
+                                    <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i>@Html.DisplayFor(modelItem => item.MonthnYear)</a>
+                                    <span class="mailbox-attachment-size">
+                                        <i class="fa fa-inr"></i>@Html.DisplayFor(modelItem => item.Total)
+                                        <a href="@Url.Action("GeneratePayslip","Pages", new { id = item.UserID ,date=item.MonthnYear })" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                    </span>
+                                </div>
+                            </li>
+}
+                        </ul>
+                    </div><!-- /.box-body -->
+
+                    
+
+                </div><!-- /.box -->
+                <!-- small box -->
+                
+            </div>
+            
+            <!-- ./col -->
+
+
+
+        </div>
+       
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+
+
+}
+

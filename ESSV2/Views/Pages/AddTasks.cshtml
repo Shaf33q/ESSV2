@@ -1,0 +1,265 @@
+﻿@model IEnumerable<ESSV2.Models.ListAllEmployees>
+@{
+    ViewBag.Title = "AddTasks";
+}
+
+@section Styles{
+
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Allot Tasks
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Allot Tasks</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row"  ng-app="TaskManager" ng-controller="taskController">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header  with-border">
+                        <h3 class="box-title">Assign Tasks To Employees</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+
+   
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Allot Task to:</label>
+                                        @*@Html.DropDownList("EmployeeNames", null, "Select Employee", new { @class = "form-control", ng_model = "employee" })*@
+                                        <select class="form-control" ng-options="emp as emp.Username for emp in employees track by emp.UserID" ng-model="employee">
+                                            <option class="disabled" value="">Select Employee</option>
+                                        </select>
+                                       
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Deadline:</label>
+                                        <input type="date" id="dueDate" class="form-control" ng-model="TaskDate">
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Priority:</label>
+                                        <select id="Priority" class="form-control" ng-options="obj as obj.name for obj in Priorities track by obj.value" ng-model="Priority">
+                                            <option class="disabled" value="">Choose a Priority</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Subject:</label>
+                                        <input type="text" class="form-control" ng-model="subject">
+
+
+                                    </div>
+                                </div>
+                                
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Description:</label>
+                                        <textarea type="text" placeholder="Description......" class="form-control" ng-model="Description"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button id="addItem" class="btn btn-primary pull-right btn-sm" type="button" ng-click="addNew()"><i class="fa fa-plus"></i> Add Task </button>
+                    </div>
+
+                </div><!-- /.box -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Tasks</h3>
+                        <div class="box-tools pull-right">                           
+                            <button id="addItem" class="btn btn-danger btn-sm" type="button" ng-click="deleteTask()"><i class="fa fa-trash-o"></i> </button> <button type="button" class="btn btn-success btn-sm" ng-click="AddTask()">Allot Tasks!</button>                           
+                        </div>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body no-padding">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr ng-repeat="taskItem in taskItem track by $index" ng-model="taskItem">
+                                        <td><input type="checkbox" class="taskCheckbox" ng-model="taskItem.complete" ng-change="save()"></td>
+                                        <td class="mailbox-star"><i class="fa fa-circle-o text-{{taskItem.priority.value}}"></i></td>
+                                        <td class="mailbox-name"><a href="#">{{taskItem.employee.Username}}</a></td>
+                                        <td class="mailbox-subject">
+                                            <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 25em; ">
+                                                <b>{{taskItem.subject}}</b> -
+                                                {{taskItem.description}}
+                                            </div>
+                                        </td>
+                                        <td class="mailbox-attachment"></td>
+                                        <td class="mailbox-date"><i class="fa fa-calendar"></i> {{taskItem.date | date : 'mediumDate'}}</td>
+                                    </tr>
+                                   
+                                    
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                        <!-- /.mail-box-messages -->
+                    </div>
+
+
+                </div><!-- /.box -->
+
+
+
+            </div>
+        </div>
+
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+<script src="~/Scripts/angular.min(1).js"></script>
+<script>
+    $(document).ready(function () {
+        var Notification = localStorage.getItem("Notify");
+
+        if (Notification != "" && Notification != null) {
+            Notify('Task(s) Alloted Successfully', 'fa-check', '', 'success', true);
+            localStorage.removeItem("Notify");
+        }
+    });
+</script>
+       
+<script>
+        //Define angular app
+        var app = angular.module('TaskManager', []);
+
+        //controllers
+        app.controller('taskController', function ($scope, $http) {
+            $http.post("../ProfileService.asmx/GetEmployees").success(function (response) {
+                $scope.employees = response;                
+            });
+            $scope.today = new Date();
+            $scope.saved = localStorage.getItem('taskItems');
+            $scope.taskItem = (localStorage.getItem('taskItems') !== null) ?
+            JSON.parse($scope.saved) : [{ description: "Why not add a task?", date: $scope.today, complete: false }];
+            localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+            $scope.date = new Date();
+            $scope.subject = null;
+            $scope.Description = null;
+            $scope.TaskDate = null;
+            $scope.Priorities = [
+                { name: 'Show Stopper',value:'red' },
+                { name: 'High', value: 'yellow' },
+                { name: 'Low', value: 'aqua' }
+            ];
+            
+
+            
+            $scope.addNew = function () {
+                if ($scope.Description == null || $scope.Description == '' || $scope.subject == null || $scope.subject == '' || $scope.employee == undefined) {
+                    alert("Please Fill All Details");
+                } else {
+                    if ($scope.TaskDate == null || $scope.TaskDate == '') {
+                        $scope.taskItem.push({
+                            description: $scope.Description,
+                            subject: $scope.subject,
+                            date: "No deadline",
+                            complete: false,
+                            priority: $scope.Priority,
+                            employee: $scope.employee
+                        })
+                    } else {
+                        $scope.taskItem.push({
+                            description: $scope.Description,
+                            subject: $scope.subject,
+                            date: $scope.TaskDate,
+                            complete: false,
+                            priority: $scope.Priority,
+                            employee: $scope.employee
+                        })
+                    };
+                    $scope.Description = '';
+                    $scope.subject = '';
+                    $scope.TaskDate = '';
+                    localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+
+                }
+                
+            };
+            $scope.deleteTask = function () {
+                var completedTask = $scope.taskItem;
+                $scope.taskItem = [];
+                angular.forEach(completedTask, function (taskItem) {
+                    if (!taskItem.complete) {
+                        $scope.taskItem.push(taskItem);
+                    }
+                });
+                localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+            };
+
+            $scope.save = function () {
+                localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+            }
+            $scope.AddTask = function () {
+                var completedTask = $scope.taskItem;
+                $scope.taskItem = [];
+                angular.forEach(completedTask, function (taskItem) {
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../ProfileService.asmx/AddTasks',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            TaskName: taskItem.subject,
+                            Deadline: taskItem.date,
+                            DateAlloted: $scope.date,
+                            AllotedBy: "@Session["UserName"]",
+                            AllotedTo: taskItem.employee.UserID,
+                            Priority: taskItem.priority.value,
+                            Description:taskItem.description
+                        }
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        localStorage.setItem("Notify", "True");
+
+                        location.reload();
+
+                    })
+                    $scope.taskItem.push(taskItem);
+                });
+                localStorage.setItem('taskItems', JSON.stringify($scope.taskItem));
+            }
+        });
+</script>
+
+
+}

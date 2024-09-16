@@ -1,0 +1,215 @@
+﻿@model IEnumerable<ESSV2.Models.Holidays>
+@{
+    ViewBag.Title = "Add Holidays";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Add/View Holidays
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Add/View Holidays</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content" style="padding-top:40px;">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-info" style="height:520px;">
+                    <div class="form-horizontal">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Add Holidays</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="col-md-1">
+                                    <label for="inputEmail3" class="control-label">Date</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" placeholder="Holiday Date" data-provide="datepicker" id="todoDate">
+                                    </div>
+                                </div>
+                                <div class=" col-md-2">
+                                    <label for="inputPassword3" class="control-label">Description</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="todoDesc" placeholder="Holiday Description..">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-block btn-info " id="add">Add Holiday</button>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <button type="button" class="btn btn-block btn-info " id="Send">Send Holiday</button>
+                                </div>
+                            </div>
+
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <div class="col-md-12" style="overflow-y:auto;overflow-x:hidden; height:340px">
+                                    <div class="box-body" id="todo-items">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                  </div>
+                </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 " >
+                <div class="box box-info" style="height:520px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">View Holidays</h3>
+                    </div>
+                    <div class="form-horizontal" style="height:470px; overflow-y :auto; overflow-x:hidden;">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Action</th>
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                <tr>
+                                                    <td>@item.Leave_Date</td>
+                                                    <td>@item.Leave_Info</td>
+                                                    <td><a href="@Url.Action("DelHoliday","Pages", new { id = item.HolID,date=item.Leave_Date })" onclick = "return confirm('Are you sure you wish to delete this Holiday?');"><i class="fa fa-times"></i></a></td>
+                                                </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts{
+
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/jquery.ellipsisTooltip.js"></script>
+<script src="~/Scripts/app.min.js"></script>
+<script src="~/Scripts/demo.js"></script>
+
+
+<script type="text/javascript">
+
+        $(function () {
+            $('.datepicker').datepicker({
+                autoclose: true
+            });
+        });
+
+</script>
+<script>
+        $(function () {
+            function addItem() {
+              //  <div class="box-tools pull-right">
+              //  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              //</div>
+
+                $("#todo-items").append('<div class="box-footer"><span id="Leave_Date" class="col-md-4">' + $("#todoDate").val() + '</span> <span id="Leave_Info" class="col-md-4">' + $("#todoDesc").val() + '</span> <small class="box-tools pull-right col-md-2" ><a href="#delete"><i class="fa fa-times"></i></a></small></div>');
+                $("#todoDesc").val("");
+                $('#todo-items').show();
+            }
+            $("#todoDesc").keydown(function (e) {
+                if (e.which == 13)
+                    addItem();
+            });
+            $("#todoDate").keydown(function (e) {
+                if (e.which == 13)
+                    addItem();
+            });
+            $("#add").click(addItem);
+            $(document).on("click", 'a[href="#edit"]', function () {
+                $(this).closest("li").find("span").prop("contenteditable", true).focus();
+                return false;
+            });
+            $(document).on("click", 'a[href="#delete"]', function () {
+                $(this).closest("div").fadeOut(function () {
+                    $(this).remove();
+                });
+                return false;
+            });
+
+
+
+            function SendItem() {
+                var obj = new Array();
+                $('#todo-items div').each(function () {
+                    var str = $(this).find("#Leave_Date").text()
+                    var str2 = $(this).find("#Leave_Info").text()
+                    obj.push({ Leave_Date: str ,Leave_Info:str2});
+                });
+
+                $.ajax({
+                    url: '@Url.Action("AddHolidayList", "Pages")',
+                    data: JSON.stringify(obj),
+                      contentType: 'application/json; charset=utf-8',
+                      type: "post",
+                      success: function (data) {
+                         
+                          if (data.status == 'Success') { // if true (1)
+                             
+                                  localStorage.setItem("Notify", "True");
+
+                                  location.reload();
+                            
+                          }
+                         
+                      },
+                      error: function (xhr, ajaxOptions, thrownError) {
+                          
+                          alert(thrownError);
+                      }
+                  });
+                $('#todo-items div').remove();
+            }
+            $("#Send").click(SendItem);
+            var Notification = localStorage.getItem("Notify");
+
+            if (Notification != "" && Notification != null) {
+                Notify('Holiday(s) Added Successfully', 'fa-check', '', 'success', true);
+                localStorage.removeItem("Notify");
+            }
+        });
+</script>
+
+
+}

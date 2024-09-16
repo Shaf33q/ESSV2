@@ -1,0 +1,116 @@
+﻿
+ <div class="modal fade" id="TaskSelf" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#3c8dbc;color:#fff">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View Task</h4>
+            </div>
+            <div class="modal-body no-padding">
+
+                <div class="mailbox-read-info with-border">
+                    <h3><i class="fa fa-circle-o text-{{Taskdata.Priority}}"></i> <strong>{{Taskdata.TaskName}}</strong></h3>
+
+                    <h5>
+                        Alloted By : {{Taskdata.AllotedBy}}
+                        <span class="mailbox-read-time pull-right"><b>Alloted on</b> : {{Taskdata.DateAlloted}}</span>
+                    </h5>
+                    <h5>
+                        <span class="mailbox-read-time pull-right"><b>DeadLine</b> : {{Taskdata.Deadline}}</span>
+                    </h5>
+                    <br />
+                </div>
+                <!-- /.mailbox-read-info -->
+                <!-- /.mailbox-controls -->
+                <div class="mailbox-read-message">
+                    <b>Description:</b>
+                    <p>{{Taskdata.Description}}</p>
+                  
+                </div>
+               
+
+            </div>
+            <div class="modal-footer" style="background-color:#3c8dbc;color:#fff">
+                <span class="pull-left"><b>Status</b> : {{Taskdata.Status}}</span>
+               
+            </div>
+        </div>
+
+    </div>
+</div>
+  
+    <!-- Modal -->
+   <div class="modal fade" id="TaskInfo" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#3c8dbc;color:#fff">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View Task</h4>
+            </div>
+            <div class="modal-body no-padding">
+
+                <div class="mailbox-read-info with-border">
+                    <h3><i class="fa fa-circle-o text-{{Taskdata.Priority}}"></i> <strong>{{Taskdata.TaskName}}</strong></h3>
+
+                    <h5>
+                        Alloted By : {{Taskdata.AllotedBy}}
+                        <span class="mailbox-read-time pull-right"><b>Alloted on</b> : {{Taskdata.DateAlloted}}</span>
+                    </h5>
+                    <h5>
+                        <span class="mailbox-read-time pull-right"><b>DeadLine</b> : {{Taskdata.Deadline}}</span>
+                    </h5>
+                    <br />
+                </div>
+                <!-- /.mailbox-read-info -->
+                <!-- /.mailbox-controls -->
+                <div class="mailbox-read-message">
+                    <b>Issue:</b>
+                    <p>{{Taskdata.Description}}</p>
+                    <p><b>Resolution:</b></p>
+                    <textarea class="form-control" id="Res" ng-disabled="TaskEdit">{{Taskdata.Resolution}}</textarea>
+
+                </div>
+                <!-- /.mailbox-read-message -->
+                @*<div class="mailbox-read-info">
+                    <ul class="mailbox-attachments clearfix">
+                        <li>
+                            <span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span>
+
+                            <div class="mailbox-attachment-info">
+                                <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Sep2014-report.pdf</a>
+                                <span class="mailbox-attachment-size">
+                                    1,245 KB
+                                    <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span>
+
+                            <div class="mailbox-attachment-info">
+                                <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> App Description.docx</a>
+                                <span class="mailbox-attachment-size">
+                                    1,245 KB
+                                    <a href="#" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                </span>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>*@
+
+            </div>
+            <div class="modal-footer" style="background-color:#3c8dbc;color:#fff">
+                <span class="pull-left"><b>Status</b> : {{Taskdata.Status}}</span>  
+                <button type="button" ng-click="Complete(Taskdata.TaskID)" ng-hide="TaskEdit" class="btn btn-default">{{BtnTaskSave}}</button>
+</div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "ClockTime";
+}
+
+@section Styles{
+
+<link href="~/Content/RoundClock.css" rel="stylesheet" />
+}
+@if (Session["UserID"] != null)
+{
+
+    ViewBag.Username = @Session["UserName"].ToString();
+
+}
+@{
+    string Checkin = "";
+    string Checkout = "";
+    ViewBag.AlreadyCheckedin = Session["Checkin"];
+    if (ViewBag.AlreadyCheckedin == true)
+    {
+        Checkin = "disabled";
+        Checkout = "";
+    }
+    else
+    {
+        Checkout = "disabled";
+        Checkin = "";
+    }
+}
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Clock In/Out
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Clock In/Out</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary" style="background: #292929;">
+                 
+                    <!-- form start -->
+
+                    <div class="box-body" style="position:relative;height:470px; background: #292929;">
+                        <div class='center-dial'>
+                            <h1 class='center-preview'>HELLO</h1>
+                            <div class='head'></div>
+                            <div class='torso'></div>
+                            <div class='hand-container' id='minutes'>
+                                <div class='minute-hand'></div>
+                            </div>
+                            <div class='hand-container' id='hours'>
+                                <div class='hour-hand'></div>
+                            </div>
+                            <div class='hand-container' id='seconds'>
+                                <div class='second-hand'></div>
+                            </div>
+                        </div>
+                        <div class='day-name-dial'>
+                            <div class='ring-back'></div>
+                            <div class='ring' id='r1'>
+                                <h1 class='day-name-preview'>DAY NAME</h1>
+                                <h2 class='day-name-text'>MON TUE WED THU FRI SAT SUN</h2>
+                            </div>
+                        </div>
+                        <div class='month-dial'>
+                            <div class='ring-back'></div>
+                            <div class='ring' id='r2'>
+                                <h1 class='month-preview'>MONTH</h1>
+                                <h2 class='month-text'>JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC</h2>
+                            </div>
+                        </div>
+                        <div class='day-dial'>
+                            <div class='ring-back'></div>
+                            <div class='ring' id='r3'>
+                                <h1 class='day-preview'>DAY</h1>
+                                <h2 class='day-text'>01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31</h2>
+                            </div>
+                        </div>
+                        <a class='side-ring  btn btn-info' id='ClockIn' href="/Pages/Clockin" @Checkin>
+                            <i class="fa fa-hourglass-start"></i><br />
+                            <div style="color: #555;"><b><i>CLOCK IN</i></b></div>
+
+                        </a>
+                        <a class='side-ring btn btn-info' id='ClockOut' href="/Pages/Clockout" @Checkout>
+                            <i class="fa fa-hourglass-end"></i><br />
+                            <div style="color: #555;"><b><i>CLOCK OUT</i></b></div>
+
+                        </a>
+                      
+
+                    </div><!-- /.box-body -->
+
+
+
+                </div><!-- /.box -->
+
+
+            </div>
+        </div>
+
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+
+<script src="~/Scripts/jquery.lettering.min.js"></script>
+<script src="~/Scripts/RoundClock.js"></script>
+<script>
+     $(document).ready(function () {
+         var Notification = $('#Notification').val();
+         if (Notification != "" && Notification != null)
+         {
+             var res = Notification.split("/");
+             Notify(res[0], 'fa-check', res[1], 'success', true);
+         }        
+        });
+     
+
+</script>
+
+   
+}

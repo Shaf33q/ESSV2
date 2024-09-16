@@ -1,0 +1,444 @@
+﻿
+@{
+    ViewBag.Title = "PaySlipGenerate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/jquery ui/jquery-ui.min.css" rel="stylesheet" />
+
+    <style>
+        .ui-slider-handle{
+            top:0em !important;
+            height:100% !important;
+            z-index:3 !important;
+        }
+   .ui-slider-range {
+   background:green;
+}
+.percent {
+  color:green;
+  font-weight:bold;
+  text-align:center;
+  width:100%;
+ 
+}
+    .datepicker-months>table> thead{
+        display:table-footer-group !important;
+    }
+    .datepicker-months>table> thead>tr>th{
+        visibility:hidden !important;
+    }
+
+    .datepicker-months>table> tbody{
+        display:table-row-group !important;
+    }
+    </style>
+
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Generate PaySlips
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> DashBoard</a></li>
+            <li class="active">Generate PaySlips</li>
+        </ol>
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary" ng-app="SalaryData" ng-controller="SalaryDataController">
+                    <div class="box-header">
+                        <h3 class="box-title">PaySlip Generate</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+                        
+                        
+                       
+                        <div class="row">
+                            <div class="col-md-12" style="padding-bottom:20px;">
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon">MONTH</span>
+                                            <input type="text" class="form-control pull-right" ng-model="Month" id="MonthDatePicker">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon">YEAR</span>
+                                            <input type="text" class="form-control pull-right" ng-model="Year" id="YearDatePicker">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon" id="basic-addon2">Working Days</span>
+                                            <input type="text" class="form-control pull-right" value="@ViewBag.WDays" disabled="disabled">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" >
+                           
+                            <div class="box box-primary" ng-repeat="x in SalaData">
+                                <div class="box-header with-border">
+                                    
+                                    <div class="col-md-2 col-sm-2 col-xs-2">
+                                        <div class="box-tools">
+                                            <button type="button" style="padding-top:15px; padding-bottom:15px;" class="btn btn-box-tool" data-toggle="collapse" data-target="#Col{{x.UserID}}">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <label class="label bg-blue">#{{x.UserID}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <div class="pull-left image">
+                                            <img src="../../ProfileImg/{{x.UserImg}}.jpg" class="img-circle" alt="User Image" style="height:50px; width:50px;" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3 text-center">
+                                        <h3 class="box-title " style="padding-top:15px; padding-bottom:15px;">{{x.Name}}</h3>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3 text-center">
+                                        <h3 class="box-title" style="padding-top:15px; padding-bottom:15px;">{{x.Designation}}</h3>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">
+                                        <h3 class="box-title" style="padding-top:15px; padding-bottom:15px;"><i class="fa fa-inr"></i> {{x.Total}}</h3>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <div class="box-tools pull-right">
+                                            <a href="@Url.Action("PrintSalaryData","Pages")?id={{x.UserID}}&date={{x.MonthnYear}}" class="btn btn-box-tool" ><i class="fa fa-cloud-download"></i></a>
+                                            <button type="button" style="padding-top:15px; padding-bottom:15px;" class="btn btn-box-tool" ng-click="remove($index,x.UserID)"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div id="Col{{x.UserID}}" class="collapse">
+                                    <div class="box-body" >
+                                        <div class="col-md-12" style="padding-top:10px;">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 83px;" id="basic-addon2">SALARY</span>
+                                                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-inr"></i></span>
+                                                    <input type="text" class="form-control" ng-change="SliderChange()" id="txt_Salary" ng-model="x.Salary" placeholder="SALARY" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">BANK NAME</span>
+                                                    <input type="text" style="width: 203px;" class="form-control" placeholder="BANK NAME" ng-model="x.BankName" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="basic-addon2">ACCOUNT NUMBER</span>
+                                                    <input type="text" class="form-control" placeholder="ACCOUNT NUMBER" ng-model="x.BankAccNo" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12" style="padding-top:10px;">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">PF NUMBER</span>
+                                                    <input type="text" style="width: 183px;" class="form-control" ng-model="x.PFNumber" placeholder="PF NUMBER" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">LOP</span>
+                                                    <input type="text" style="width: 103px;" class="form-control"  ng-model="x.LOPAmount" placeholder="LOP" disabled="disabled">
+                                                    <span class="input-group-addon" style="width: 50px;" id="basic-addon2">Days</span>
+                                                    <input type="text" style="width: 50px;" ng-change="SliderChange()" ng-model="x.LOPDays" class="form-control" placeholder="LOP">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 138px;" id="basic-addon2">PAN</span>
+                                                    <input type="text" style="width: 161px;" class="form-control"  ng-model="x.PAN" placeholder="PAN" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:10px;">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">BASIC</span>
+                                                    <input type="text" style="width: 183px;" class="form-control" ng-model="x.Basic" placeholder="BASIC" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">HRA</span>
+                                                    <input type="text" style="width: 203px;" class="form-control" ng-model="x.HRA" placeholder="HRA" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 138px;" id="basic-addon2">BONUS</span>
+                                                    <input type="text" style="width: 161px;" ng-change="SliderChange()" class="form-control" ng-model="x.Bonus" placeholder="BONUS">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="padding-top:10px;">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">PF AMOUNT</span>
+                                                    <input type="text" style="width: 183px;" ng-change="SliderChange()" class="form-control" ng-model="x.PFAmount" placeholder="PF">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 116px;" id="basic-addon2">ESI</span>
+                                                    <input type="text" style="width: 203px;" ng-change="SliderChange()" class="form-control" ng-model="x.ESI" placeholder="ESI">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 138px;" id="basic-addon2">PROF TAX</span>
+                                                    <input type="text" style="width: 161px;" ng-change="SliderChange()" class="form-control" ng-model="x.ProfTax" placeholder="PROF TAX">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="width: 102px;" id="basic-addon2">PER DAY</span>
+                                                    <input type="text" style="width: 203px;" class="form-control" ng-model="x.PerDay" placeholder="Per Day" disabled="disabled">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="basic-addon2">TOTAL AMOUNT</span>
+                                                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-inr"></i></span>
+                                                    <input type="text" class="form-control" ng-model="x.Total" placeholder="Total Amount" disabled="disabled">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- /.box -->
+                        </div>
+
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary pull-right"  ng-click="AddPaySlip()">Update</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@section Scripts{
+   
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/plugins/jquery ui/jquery-ui.min.js"></script>    
+    <script src="~/Scripts/plugins/slider.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+        var Notification = localStorage.getItem("Notify");
+
+        if (Notification != "" && Notification != null) {
+            Notify('Payslip(s) Updated Successfully', 'fa-check', '', 'success', true);
+            localStorage.removeItem("Notify");
+        }
+        $("#MonthDatePicker").datepicker({
+            format: "mm",
+            viewMode: "months",
+            minViewMode: "months"
+        });
+
+        $("#YearDatePicker").datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+
+    });
+
+    //Define angular app
+    var app = angular.module("SalaryData", ['ui.slider']);
+    // This filter makes the assumption that the input will be in decimal form (i.e. 17% is 0.17).
+    app.filter('percentage', ['$filter', function ($filter) {
+        return function (input) {
+            return $filter('number')(input) + '%';
+        };
+    }]);
+    //controllers
+    app.controller('SalaryDataController', function ($scope, $http, $log) {
+
+        var CalMonth = moment().month() + 1;
+
+        if (parseInt(CalMonth) < 10) {
+            CalMonth = "0" + CalMonth;
+        }
+        $scope.Month = CalMonth;
+        $scope.Year = moment().year();
+
+        var transform = function (data) {
+            return $.param(data);
+        }
+
+        GetMonthSalary();
+        function GetMonthSalary() {
+            var postdat = {
+                MonYear: $scope.Year + "-" + $scope.Month
+            };
+            $http.post("../ProfileService.asmx/GetGenSalaryData", postdat, {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                transformRequest: transform
+            }).success(function (response) {
+                $scope.SalaData = response;
+                console.log(response);
+                CalcuateSalary();
+            });
+
+        }
+
+
+        $scope.$watch("Month", function (newValue, oldValue) {
+            GetMonthSalary();
+        });
+
+        $scope.$watch("Year", function (newValue, oldValue) {
+            GetMonthSalary();
+        });
+
+        $scope.SliderChange = function () {
+            CalcuateSalary();
+        };
+
+
+        var Workdays = "@ViewBag.WDays";
+        function CalcuateSalary() {
+            var Earings = 0;
+            var Deductions = 0;
+
+            angular.forEach($scope.SalaData, function (a) {
+
+                a.PerDay = (a.Salary / Workdays).toFixed(2);
+                a.LOPAmount = (a.PerDay) * (a.LOPDays);
+                Earings = (a.Basic * 1) + (a.HRA * 1) + (a.Bonus * 1);
+                Deductions = a.LOPAmount + (a.PFAmount * 1) + (a.ProfTax * 1) + (a.ESI * 1);
+                a.Total = Earings - Deductions;
+            })
+
+        }
+        $scope.remove = function (index, val) {
+            var postdata = {
+                ID: $scope.Year + "" + $scope.Month + "" + val
+            };
+            console.log(postdata);
+            $http.post("../ProfileService.asmx/DelSalaryData", postdata, {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                transformRequest: transform
+            }).success(function (response) {
+                alert(response);
+
+            });
+
+            $scope.SalaData.splice(index, 1);
+        }
+
+        $scope.AddPaySlip = function () {
+            var Mon = $("#MonthDatePicker").val();
+            var Year = $("#YearDatePicker").val();
+            var MonYear = Year + "-" + Mon;
+
+            if (Mon != "" && Year != "") {
+                var PaySlips = $scope.SalaData;
+                angular.forEach(PaySlips, function (P) {
+                    var httpreq = {
+                        method: 'POST',
+                        url: '../ProfileService.asmx/AddPaySlips',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8',
+                            'dataType': 'json'
+                        },
+                        data: {
+                            MonthnYear: MonYear,
+                            UserID: P.UserID,
+                            Salary: P.Salary,
+                            HRA: P.HRA,
+                            Basic: P.Basic,
+                            LOP: P.LOPDays,
+                            WDays: Workdays,
+                            BankName: P.BankName,
+                            AccNo: P.BankAccNo,
+                            PerDay: P.PerDay,
+                            Bonus: P.Bonus,
+                            ESI: P.ESI,
+                            ProfTax: P.ProfTax,
+                            PFAmount: P.PFAmount,
+                            PFNumber: P.PFNumber,
+                            PAN: P.PAN,
+                            Total: P.Total,
+                            Name: P.Name,
+                            Designation: P.Designation
+
+                        }
+
+                    }
+
+                    $http(httpreq).success(function (response) {
+                        localStorage.setItem("Notify", "True");
+
+                        location.reload();
+
+                    })
+                });
+            }
+
+        }
+
+
+
+    });
+
+</script>
+   
+}
+
